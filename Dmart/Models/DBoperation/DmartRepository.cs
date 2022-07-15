@@ -17,11 +17,15 @@ namespace Dmart.Models.DBoperation
             string constr = ConfigurationManager.ConnectionStrings["Dmart"].ToString();
             con = new SqlConnection(constr);
         }
-        public List<OrderDetail> GetOrderDetails()
+       
+
+
+        public List<OrderModel> GetOrders ()
         {
             connection();
-            List<OrderDetail> OrderList = new List<OrderDetail>();
-            SqlCommand cmd = new SqlCommand("OrderDetail", con);
+            List<OrderModel> OrderList = new List<OrderModel>();
+
+            SqlCommand cmd = new SqlCommand("OrderDetailsList",con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             con.Open();
@@ -29,28 +33,23 @@ namespace Dmart.Models.DBoperation
             con.Close();
             foreach (DataRow dr in dt.Rows)
             {
-                OrderList.Add(
-                    new OrderDetail()
-                    {
-                        Id = Convert.ToInt32(dr["ID"]),
-                        OrderDate = Convert.ToDateTime(dr["OrderDate"]),
-                        CustomerName = Convert.ToString(dr["Name"]),
-                        Quanity = Convert.ToInt32(dr["Quatity"]),
-                        TotalAmount = Convert.ToInt32(dr["Amount"]),
-                          ProductId = Convert.ToInt32(dr["Product_id"]),
-                              ProductName = Convert.ToString(dr["ProductName"]),
-         UnitPrice = Convert.ToInt32(dr["UnitPrice"]),
-                    }
-                    );
+                OrderList.Add(new OrderModel()
+                {
+                    OrderId = Convert.ToInt32(dr["OrderID"]),
+                    OrderDate = Convert.ToDateTime(dr["OrderDate"]),
+                    CustomerName = Convert.ToString(dr["CustomerName"])    
+
+                });
             }
             return OrderList;
         }
 
-        public List<Customer> GetCustomer()
+        public List<ProductModel> GetProducts()
         {
             connection();
-            List<Customer> Customerlist = new List<Customer>();
-            SqlCommand cmd = new SqlCommand("Order", con);
+            List<ProductModel> ProductList = new List<ProductModel>();
+
+            SqlCommand cmd = new SqlCommand("ProductDetailList", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             con.Open();
@@ -58,16 +57,19 @@ namespace Dmart.Models.DBoperation
             con.Close();
             foreach (DataRow dr in dt.Rows)
             {
-                Customerlist.Add(
-                    new Customer()
-                    {
-                        Id = Convert.ToInt32(dr["order_id"]),
-                        OrderDate = Convert.ToDateTime(dr["OrderDate"]),
-                       customer.CustomerName = Convert.ToString(dr["Name"]),
-                    }
-                    );
+                ProductList.Add(new ProductModel()
+                {
+          
+                  OrderId= Convert.ToInt32(dr["OrderId"]),
+                    ProductId = Convert.ToInt32(dr["ProductId"]),
+                    Name = Convert.ToString(dr["ProductName"]),
+                  //Quantity = Convert.ToInt32(dr["quantity"]),
+                  unitPrice = Convert.ToDouble(dr["UnitPrice"]),
+                  TotalAmount = Convert.ToDouble(dr["Amount"])
+
+                });
             }
-            return Customerlist;
+            return ProductList;
         }
     }
 }

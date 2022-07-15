@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Insert";
+}
+
+<h2>Insert</h2>
+
+<form>
+    <label>Select Customer  </label>
+    <select class="custom-select">
+        <option value="1">Shubham</option>
+        <option value="2">Aman</option>
+        <option value="3">Dhanesh</option>
+    </select>
+    <br />
+    <label>
+        Order Date :
+    </label>
+    <span> @DateTime.Now </span>
+    <br />
+    <label>Select Product </label>
+    <select class="custom-select">
+        <option value="1">Coconut Oil</option>
+        <option value="2">Chocolate</option>
+        <option value="3">Kurkure</option>
+    </select>
+    <br />
+    <label>Enter Quantity</label>
+    <input type="number''" name="name" value="" />
+    <br />
+        
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

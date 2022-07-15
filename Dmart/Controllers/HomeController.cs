@@ -17,13 +17,26 @@ namespace Dmart.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            var result = new OrderDetail();
-            result.or = repo.GetOrderDetails();
+            //var result = new OrderDetail();
+            //result.or = repo.GetOrderDetails();
+            //return View(model);
+            //var model = repo.GetOrders();
+            var model = new OrderModel();
+
+            model.ProductList = repo.GetProducts();
+
+            model.OrderList = repo.GetOrders();
             return View(model);
+            
         }
         public ActionResult Jqeury()
         {
             return View();  
+        }
+
+        public  ActionResult Insert()
+        {
+            return View();
         }
     }
 }
