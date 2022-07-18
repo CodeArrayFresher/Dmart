@@ -25,7 +25,7 @@
     <br />
     <table class="table table-dark" id="tbl">
         <tr>
-            <th>Sr.no</th>
+
             <th>Product Name</th>
             <th>Unit Price</th>
             <th>Quantity</th>
@@ -49,9 +49,9 @@
         var unit_price = 10;
         var amount = $('#amount').text();
         $("#tbl tr:last").after(
-            '<tr><td>' + srno + '</td ><td><select id="products"><option value = "Ashirvad Atta">Ashirvad Atta</option ><option value="Tata Salt">Tata Salt</option><option value="Jeera">Jeera</option></select ></td><td id="unit' + srno + '">' + unit_price + '</td><td><input id="quantity' + srno + '" type="number" name="name" value="" onchange ="calamnt(' + srno + ')"/></td><td><label><span id="amount'+srno+'">12</span></label></td><td><button type="button" class="btn btn-danger">Delete</button> </td></tr >'   
+            '<tr id="row'+srno+'"><td><select id="products"><option value = "Ashirvad Atta">Ashirvad Atta</option ><option value="Tata Salt">Tata Salt</option><option value="Jeera">Jeera</option></select ></td><td id="unit' + srno + '">' + unit_price + '</td><td><input id="quantity' + srno + '" type="number" name="name" value="" onchange ="calamnt(' + srno + ')"/></td><td><label><span id="amount' + srno + '">12</span></label></td><td><button onclick="del('+srno+')" type="button" class="btn btn-danger">Delete</button> </td></tr >'   
         );
-        srno = srno + 1;
+        ++srno;
         //console.log(cname, pname, quantity, unit_price, amount);
     });
     //$('#quantity').on('change', function () {
@@ -65,5 +65,9 @@
         var quantity = $("#quantity"+id).val();
         $('#amount'+id).text(10 * quantity);
     }
- 
+    function del(id) {
+        $("#row" + id).remove();
+        
+    }
+
 </script>
