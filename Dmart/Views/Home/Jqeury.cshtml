@@ -2,26 +2,23 @@
 @{
     ViewBag.Title = "Jqeury";
 }
-
-<div>
-    <ul>
-        <li><p>one</p></li>
-        <li><p>two</p></li>
-        <li><p>three</p></li>
-        <li><p>four</p></li>
-    </ul>
-</div>
-
+<ul id="a">
+    <li>list</li>
+    <li>list</li>
+    <li>list</li>
+    <li>list</li>
+</ul>
+<ul id="b"></ul>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
-        //alert(jQuery('a').filter('.external').length + ' external links');
-        //alert(
-        //    jQuery('a')
-        //        .filter(function (index) { return $(this).hasClass('external'); })
-        //        .length + ' external links'
-        //);
-        //alert('total em are' + $('p').find('em').length );
+    //alert(jQuery('a').filter('.external').length + ' external links');
+    //alert(
+    //    jQuery('a')
+    //        .filter(function (index) { return $(this).hasClass('external'); })
+    //        .length + ' external links'
+    //);
+    //alert('total em are' + $('p').find('em').length );
     //alert(jQuery('p').filter('.middle').find('span').end().length); //end is used to undo
     //alert(jQuery('p').filter('.middle').length);
 
@@ -32,5 +29,19 @@
     //jQuery('li:eq(1)').parent().css("color", "red"); //selects the first <li>
     //jQuery('li:eq(1)').parent().children().css("color", "red");
     //jQuery('li:eq(1)').nextAll().css("color", "red");
-    jQuery('li:eq(1)').prevAll().css("color", "red");
+    //jQuery('li:eq(1)').prevAll().css("color", "red");
+    //jQuery('p').html('<strong>Hello World</strong>, I am a <em>&lt;p&gt;</em> element.');
+    //alert(jQuery('p').html());
+    //$('button').click(function () {
+    //    $('#p11').clone().appendTo('#h11');
+    //});
+    jQuery('ul#a li')
+        .click(function () { alert('List Item Clicked') })
+        .parent()
+        .clone(true)
+        .find('li')
+        .appendTo('#b')
+        .end()
+        .end()
+        .remove();
 </script>
