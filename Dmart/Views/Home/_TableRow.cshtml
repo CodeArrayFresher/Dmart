@@ -1,0 +1,23 @@
+﻿@model Dmart.Models.OrderModel
+<tr>
+    @using (Html.BeginCollectionItem("OrderList"))
+    {
+        <td>
+            @Html.DropDownListFor(model => model.product.ProductId, new SelectList(Model.ProductList, "ProductId", "Name"), "please select", new { @onchange = "getdropdownid(this)" })
+        </td>
+        <td class="unitpricetd">
+            @Html.EditorFor(model => model.product.unitPrice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true } })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.product.Quantity, new { htmlAttributes = new { @class = "text-center", @onchange = "calamnt(this)", @required = true } })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.product.TotalAmount, new { htmlAttributes = new { @class = "text-center amount", @required = true } })
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger delete">Delete</button>
+        </td>
+    }
+</tr>
+@*<label><span class="amount">0</span></label>*@
+

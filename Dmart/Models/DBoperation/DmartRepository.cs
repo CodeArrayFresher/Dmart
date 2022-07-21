@@ -71,5 +71,69 @@ namespace Dmart.Models.DBoperation
             }
             return ProductList;
         }
+
+        public List<CustomerModel> GetCustomers()
+        {
+            connection();
+            List<CustomerModel> CustomerList = new List<CustomerModel>();
+
+            SqlCommand cmd = new SqlCommand("GetCustomer", con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            con.Open();
+            da.Fill(dt);
+            con.Close();
+            foreach (DataRow dr in dt.Rows)
+            {
+                CustomerList.Add(new CustomerModel()
+                {
+                    ID = Convert.ToInt32(dr["ID"]),
+                    Name = Convert.ToString(dr["Name"])
+                });
+            }
+            return CustomerList;
+        }
+        public List<ProductModel> GetAllProducts()
+        {
+            connection();
+            List<ProductModel> ProductList = new List<ProductModel>();
+
+            SqlCommand cmd = new SqlCommand("GetAllProducts", con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            con.Open();
+            da.Fill(dt);
+            con.Close();
+            foreach (DataRow dr in dt.Rows)
+            {
+                ProductList.Add(new ProductModel()
+                {
+                 ProductId = Convert.ToInt32(dr["Id"]),
+                 Name = Convert.ToString(dr["Name"]),
+                 unitPrice = Convert.ToInt32(dr["Price"])
+                });
+            }
+            return ProductList;
+        }
+        public int GetProductPrice(int id)
+        {
+            connection();
+            int price= 0;
+            SqlCommand cmd = new SqlCommand("ProductPrice", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@id", id);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            con.Open();
+            da.Fill(dt);
+            con.Close();
+            if(dt.Rows.Count > 0)
+            {
+                DataRow row = dt.Rows[0];
+                price = Convert.ToInt32(row["Price"]);
+            }
+            return price;
+        }
+
     }
 }

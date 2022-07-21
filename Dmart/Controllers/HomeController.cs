@@ -36,7 +36,31 @@ namespace Dmart.Controllers
 
         public  ActionResult Insert()
         {
-            return View();
+            var model = new OrderModel();
+            model.CustomerList= repo.GetCustomers();
+            model.ProductList = repo.GetAllProducts();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult InsertData(OrderModel model)
+        {
+            return RedirectToAction("Insert");
+        }
+
+        public int getUnitPrice(int id)
+        {
+            var model = new OrderModel();
+            model.productPrice = repo.GetProductPrice(id);
+            return model.productPrice;
+        }
+
+        public ActionResult _TableRow()
+        {
+            var model = new OrderModel();
+            model.CustomerList = repo.GetCustomers();
+            model.ProductList = repo.GetAllProducts();
+            return PartialView("_TableRow",model);
         }
     }
 }

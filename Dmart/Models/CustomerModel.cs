@@ -11,5 +11,6 @@ namespace Dmart.Models
         public string Name { get; set; }
         public string ContactNumber { get; set; }
         public string EmailID { get; set; }
+        public List<CustomerModel> Customers { get; set; }
     }
 }

@@ -2,16 +2,21 @@
 @{
     ViewBag.Title = "Jqeury";
 }
-<ul id="a">
-    <li>list</li>
-    <li>list</li>
-    <li>list</li>
-    <li>list</li>
-</ul>
-<ul id="b"></ul>
+<div id="content">
+    <h1>Main title</h1>
+    <h2>Section title</h2>
+    <p>Some content...</p>
+    <h2>Section title</h2>
+    <p>More content...</p>
+</div>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
+    //jQuery('h1 + h2').css('color', 'red'); // Selects ALL H2 elements that are adjacent siblings of H1 elements    jQuery('h1').siblings('h2,h3,p').css('color', 'red');
+ // Selects all H2, H3, and P elements that are siblings of H1 elements
+    //$('#nav li>a').css('color', 'red'); // selects all 'a' child elements of Li tag
+
+
     //alert(jQuery('a').filter('.external').length + ' external links');
     //alert(
     //    jQuery('a')
@@ -35,13 +40,13 @@
     //$('button').click(function () {
     //    $('#p11').clone().appendTo('#h11');
     //});
-    jQuery('ul#a li')
-        .click(function () { alert('List Item Clicked') })
-        .parent()
-        .clone(true)
-        .find('li')
-        .appendTo('#b')
-        .end()
-        .end()
-        .remove();
+    //jQuery('ul#a li')
+    //    .click(function () { alert('List Item Clicked') })
+    //    .parent()
+    //    .clone(true)
+    //    .find('li')
+    //    .appendTo('#b')
+    //    .end()
+    //    .end()
+    //    .remove();
 </script>
