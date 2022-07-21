@@ -63,8 +63,8 @@ namespace Dmart.Models.DBoperation
                   OrderId= Convert.ToInt32(dr["OrderId"]),
                     ProductId = Convert.ToInt32(dr["ProductId"]),
                     Name = Convert.ToString(dr["ProductName"]),
-                  //Quantity = Convert.ToInt32(dr["quantity"]),
-                  unitPrice = Convert.ToDouble(dr["UnitPrice"]),
+                    Quantity = Convert.ToInt32(dr["Quantity"]),
+                    unitPrice = Convert.ToDouble(dr["UnitPrice"]),
                   TotalAmount = Convert.ToDouble(dr["Amount"])
 
                 });
@@ -110,7 +110,8 @@ namespace Dmart.Models.DBoperation
                 {
                  ProductId = Convert.ToInt32(dr["Id"]),
                  Name = Convert.ToString(dr["Name"]),
-                 unitPrice = Convert.ToInt32(dr["Price"])
+                 unitPrice = Convert.ToInt32(dr["Price"]),
+                 
                 });
             }
             return ProductList;
@@ -133,6 +134,50 @@ namespace Dmart.Models.DBoperation
                 price = Convert.ToInt32(row["Price"]);
             }
             return price;
+        }
+
+        public void AddData(OrderModel model,int cust)
+        {
+            var customerid = cust;
+            DataTable dt = new DataTable();
+            DataColumn dc = new DataColumn("productId", typeof(Int32));
+            dt.Columns.Add(dc); 
+            dc = new DataColumn("CustomerId", typeof(Int32));
+            dt.Columns.Add(dc);
+            dc = new DataColumn("UnitPrice", typeof(Int32));
+            dt.Columns.Add(dc);
+            dc = new DataColumn("Quantity", typeof(Int32));
+            dt.Columns.Add(dc);
+
+            foreach (var item in model.OrderList)
+            {
+                DataRow dr = dt.NewRow();
+                dr[0] = item.product.ProductId;
+                dr[1] = customerid;
+                dr[2] = item.product.unitPrice; 
+                dr[3] = item.product.Quantity; 
+                dt.Rows.Add(dr);
+            }
+            connection();
+            con.Open();
+            using (var command = new SqlCommand("storeorder", con))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    var param = command.Parameters.AddWithValue("@tvpproduct", dt);
+                    param.SqlDbType = SqlDbType.Structured;
+                param.TypeName = "dbo.TVP_Product";
+
+                command.ExecuteNonQuery();
+                }
+            
+            //foreach (var row in dt.AsEnumerable())
+            //{
+            //    var id = row.Field<int>("productId");
+            //    var customer = row.Field<int>("CustomerId");
+            //    var unitprice = row.Field<int>("UnitPrice");
+            //    var quantity = row.Field<int>("Quantity");
+            //}
         }
 
     }

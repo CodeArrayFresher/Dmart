@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\DBoperation\DmartRepository.cs" />
+    <Compile Include="Models\Formdata.cs" />
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\ProductModel.cs" />

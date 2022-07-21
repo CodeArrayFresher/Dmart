@@ -45,6 +45,8 @@ namespace Dmart.Controllers
         [HttpPost]
         public ActionResult InsertData(OrderModel model)
         {
+            var customer = model.CustomerID;
+            repo.AddData(model,customer);
             return RedirectToAction("Insert");
         }
 
