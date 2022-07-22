@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using Dmart.Models;
 using System.Data;
+using Newtonsoft.Json;
 
 namespace Dmart.Models.DBoperation
 {
@@ -136,49 +137,75 @@ namespace Dmart.Models.DBoperation
             return price;
         }
 
-        public void AddData(OrderModel model,int cust)
+        public void AddData(OrderModel model, int cust)
         {
-            var customerid = cust;
-            DataTable dt = new DataTable();
-            DataColumn dc = new DataColumn("productId", typeof(Int32));
-            dt.Columns.Add(dc); 
-            dc = new DataColumn("CustomerId", typeof(Int32));
-            dt.Columns.Add(dc);
-            dc = new DataColumn("UnitPrice", typeof(Int32));
-            dt.Columns.Add(dc);
-            dc = new DataColumn("Quantity", typeof(Int32));
-            dt.Columns.Add(dc);
 
-            foreach (var item in model.OrderList)
-            {
-                DataRow dr = dt.NewRow();
-                dr[0] = item.product.ProductId;
-                dr[1] = customerid;
-                dr[2] = item.product.unitPrice; 
-                dr[3] = item.product.Quantity; 
-                dt.Rows.Add(dr);
-            }
+
+            var orderId = model.OrderId;
+            var orderDate = model.OrderDate;
+            var customerid = cust;
+            var output = JsonConvert.SerializeObject(model.OrderList.Select(x => new { x.product.ProductId, x.product.Quantity, x.product.unitPrice }));
+
+            //DataTable dt = new DataTable();
+            //DataColumn dc = new DataColumn("productId", typeof(Int32));
+            //dt.Columns.Add(dc); 
+            //dc = new DataColumn("CustomerId", typeof(Int32));
+            //dt.Columns.Add(dc);
+            //dc = new DataColumn("UnitPrice", typeof(Int32));
+            //dt.Columns.Add(dc);
+            //dc = new DataColumn("Quantity", typeof(Int32));
+            //dt.Columns.Add(dc);
+
+            //foreach (var item in model.OrderList)
+            //{
+            //    DataRow dr = dt.NewRow();
+            //    dr[0] = item.product.ProductId;
+            //    dr[1] = customerid;
+            //    dr[2] = item.product.unitPrice; 
+            //    dr[3] = item.product.Quantity; 
+            //    dt.Rows.Add(dr);
+            //}
             connection();
             con.Open();
-            using (var command = new SqlCommand("storeorder", con))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
+            using (var command = new SqlCommand("AddDataJson", con))
+            {
+                command.CommandType = CommandType.StoredProcedure;
 
-                    var param = command.Parameters.AddWithValue("@tvpproduct", dt);
-                    param.SqlDbType = SqlDbType.Structured;
-                param.TypeName = "dbo.TVP_Product";
+                command.Parameters.AddWithValue("@JsonData", output);
+                command.Parameters.AddWithValue("@customerid", customerid);
+
 
                 command.ExecuteNonQuery();
-                }
-            
-            //foreach (var row in dt.AsEnumerable())
-            //{
-            //    var id = row.Field<int>("productId");
-            //    var customer = row.Field<int>("CustomerId");
-            //    var unitprice = row.Field<int>("UnitPrice");
-            //    var quantity = row.Field<int>("Quantity");
-            //}
+                con.Close();
+                //    }
+
+
+            }
         }
 
+        public List<OrderDetail> ShowProductToEdit(OrderDetail model,int id)
+        {
+            connection();
+            List<OrderDetail> OrderList = new List<OrderDetail>();
+            SqlCommand cmd = new SqlCommand("ShowProductToEdit", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@id", id);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            con.Open();
+            da.Fill(dt);
+            con.Close();
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderList.Add(new OrderDetail()
+                {
+                    ProductName = Convert.ToString(dr["productname"]),
+                    Quatity = Convert.ToInt32(dr["Quatity"]),
+                    UnitPrice = Convert.ToInt32(dr["UnitPrice"])
+
+                }); 
+            }
+            return OrderList;
+        }
     }
 }

@@ -3,7 +3,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-
+<style>
+    #Tab, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+ #Tab th{
+     background-color: darkgray;
+     color:black
+ }
+</style>
 <body>
 
     <h2>Order List</h2>
@@ -12,17 +21,22 @@
 
     <button id="collapseall" type="button" style="display:none;"> Collapse All </button>
     <br /> <br />
-    <table class="table" style="border: 0.5px solid #A0A0A0">
-        <tr>
+    <table class="table table-bordered table-hover text-center" id="Tab" style="border: 1px solid #A0A0A0">
+        <tr class="text-center">
             <th></th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.OrderId)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.OrderDate)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.CustomerName)
+            </th>  
+       
+
+            <th class="text-center">
+               Edit
             </th>
         </tr>
         @foreach (var item in Model.OrderList)
@@ -40,16 +54,19 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CustomerName)
                 </td>
+                <td>
+                    <button type="button">@Html.ActionLink("Edit","Edit",new {id =item.OrderId})</button>
+                </td>
             </tr>
             <tr class="trlist productTable" style="display:none;">
                 <td colspan='999'>
 
                     <table class="table table-dark innerDiv">
                         <tr>
-                            <th>Product_ID</th>
-                            <th>Prdouct_Name</th>
-                            <th>Quantity</th>
-                            <th>Unit_price</th>
+                            <th class="text-center">Product_ID</th>
+                            <th class="text-center">Prdouct_Name</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-center">Unit_price</th>
                         </tr>
 
                         @foreach (var prd in Model.ProductList.Where(x => x.OrderId == item.OrderId).OrderBy(x => x.ProductId))
@@ -99,13 +116,14 @@
                     $(e).find("img").attr("src", "/Content/plus.png");
                 }
 
-                $(e).next('.productTable').toggle(1000, "linear");
+                $(e).next('.productTable').toggle(500, "linear");
 
 
 
 
             });
         });
+
 
 
 

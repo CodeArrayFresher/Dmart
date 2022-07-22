@@ -13,7 +13,7 @@ namespace Dmart.Models
         public int Quatity { get; set; }
         public decimal UnitPrice { get; set; }
         public int cust_id { get; set; }
-        
+        public string ProductName { get; set; }
     }
  
 }

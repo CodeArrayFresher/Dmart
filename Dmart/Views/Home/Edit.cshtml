@@ -1,0 +1,63 @@
+﻿@model Dmart.Models.OrderModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+
+
+
+    <button type="button" class="btn btn-success ADD">Add</button>
+    <br />
+    <table class="table table-dark" id="tbl">
+        <tr>
+            <th>Product Name</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+            <th>Delete</th>
+        </tr>
+            @foreach (var item in Model.showproducttoedit)
+            {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quatity)
+                </td>
+        </tr>
+            }
+    </table>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+
+    $(".ADD").click(function () {
+
+        $.ajax({
+            type: "get",
+            url: "/Home/_TableRow",
+            /*            data: { 'id': a },*/
+            success: function (x) {
+                $("#tbl").append(x);
+            },
+            error: function () {
+                alert("Dynamic content load failed");
+            },
+        }
+        )
+        ++srno;
+        //console.log(cname, pname, quantity, unit_price, amount);
+    });
+</script>

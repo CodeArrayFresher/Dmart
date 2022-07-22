@@ -47,7 +47,7 @@ namespace Dmart.Controllers
         {
             var customer = model.CustomerID;
             repo.AddData(model,customer);
-            return RedirectToAction("Insert");
+            return RedirectToAction("Index");
         }
 
         public int getUnitPrice(int id)
@@ -63,6 +63,18 @@ namespace Dmart.Controllers
             model.CustomerList = repo.GetCustomers();
             model.ProductList = repo.GetAllProducts();
             return PartialView("_TableRow",model);
+        }
+
+        public ActionResult Edit(OrderModel models,int id)
+        {
+            var model = new OrderModel();
+            var orderDetail = new OrderDetail();
+            model.showproducttoedit = repo.ShowProductToEdit(orderDetail,id);
+            //var model = new OrderModel();
+            //model.CustomerList = repo.GetCustomers();
+            //model.ProductList = repo.GetAllProducts();
+            return View(model);
+
         }
     }
 }

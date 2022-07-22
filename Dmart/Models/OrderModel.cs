@@ -9,6 +9,8 @@ namespace Dmart.Models
     public class OrderModel
     {
         public int OrderId { get; set; }
+
+
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> OrderDate { get; set; }
         public int CustomerID { get; set; }
@@ -19,7 +21,7 @@ namespace Dmart.Models
         public List<ProductModel> ProductList { get; set; }
         public List<OrderModel> OrderList { get; set; }
         public int productPrice { get; set; }
-     
+        public List<OrderDetail> showproducttoedit { get; set; }
         //public List<CustomerModel> CustomerModelLsit { get; set; }
         //public string allproducts { get; set; }
         //public List<OrderModel> OrderList { get; set; }
