@@ -70,6 +70,8 @@ namespace Dmart.Controllers
             var model = new OrderModel();
             var orderDetail = new OrderDetail();
             model.showproducttoedit = repo.ShowProductToEdit(orderDetail,id);
+       
+            model.ProductList = repo.GetAllProducts();
             //var model = new OrderModel();
             //model.CustomerList = repo.GetCustomers();
             //model.ProductList = repo.GetAllProducts();

@@ -20,20 +20,25 @@
             <th>Amount</th>
             <th>Delete</th>
         </tr>
+       
             @foreach (var item in Model.showproducttoedit)
             {
         <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductName)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.UnitPrice)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quatity)
-                </td>
+               <td>
+            @Html.DropDownListFor(model => model.product.ProductId, new SelectList(Model.ProductList, "ProductId", "Name"), item.ProductName, new { @onchange = "getdropdownid(this)" })
+        </td>
+        <td class="unitpricetd">
+            @Html.EditorFor(model => model.product.unitPrice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true, @Value = item.UnitPrice } })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.product.Quantity, new { htmlAttributes = new { @class = "text-center", @onchange = "calamnt(this)", @required = true, @Value = item.Quatity } })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.product.TotalAmount, new { htmlAttributes = new { @class = "text-center amount", @required = true } })
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger delete">Delete</button>
+        </td>
         </tr>
             }
     </table>
