@@ -14,6 +14,7 @@ namespace Dmart.Models
         public decimal UnitPrice { get; set; }
         public int cust_id { get; set; }
         public string ProductName { get; set; }
+        public decimal ProductAmount { get; set; }
     }
  
 }

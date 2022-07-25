@@ -33,10 +33,11 @@
             <th class="text-center">
                 @Html.DisplayNameFor(model => model.CustomerName)
             </th>  
-       
-
             <th class="text-center">
                Edit
+            </th> 
+            <th class="text-center">
+               View Invoice
             </th>
         </tr>
         @foreach (var item in Model.OrderList)
@@ -56,6 +57,9 @@
                 </td>
                 <td>
                     <button type="button">@Html.ActionLink("Edit","Edit",new {id =item.OrderId})</button>
+                </td>       
+                <td>
+                    <button type="button">@Html.ActionLink("Invoice","Invoice",new {id =item.OrderId})</button>
                 </td>
             </tr>
             <tr class="trlist productTable" style="display:none;">

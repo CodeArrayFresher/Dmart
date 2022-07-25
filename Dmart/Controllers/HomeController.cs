@@ -69,7 +69,8 @@ namespace Dmart.Controllers
         {
             var model = new OrderModel();
             var orderDetail = new OrderDetail();
-            model.showproducttoedit = repo.ShowProductToEdit(orderDetail,id);
+            
+            model.showproducttoedit = repo.ShowProductToEdit(id);
        
             model.ProductList = repo.GetAllProducts();
             //var model = new OrderModel();
@@ -77,6 +78,15 @@ namespace Dmart.Controllers
             //model.ProductList = repo.GetAllProducts();
             return View(model);
 
+        }
+
+        public ActionResult Invoice(int id)
+        {
+            var model = new OrderModel();
+            var orderDetail = new OrderDetail();
+              model.Invoice =repo.Invoice(id);
+            model.showproducttoedit = repo.ShowProductToEdit(id);
+            return View(model);
         }
     }
 }

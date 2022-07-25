@@ -25,7 +25,8 @@
             {
         <tr>
                <td>
-            @Html.DropDownListFor(model => model.product.ProductId, new SelectList(Model.ProductList, "ProductId", "Name"), item.ProductName, new { @onchange = "getdropdownid(this)" })
+              
+            @Html.DropDownListFor(model => model.product.ProductId, new SelectList(Model.ProductList, "ProductId", "Name"), item.ProductName, new { @class="proddropdown", @onchange = "getdropdownid(this)"})
         </td>
         <td class="unitpricetd">
             @Html.EditorFor(model => model.product.unitPrice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true, @Value = item.UnitPrice } })
@@ -65,4 +66,5 @@
         ++srno;
         //console.log(cname, pname, quantity, unit_price, amount);
     });
+
 </script>

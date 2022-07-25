@@ -183,7 +183,7 @@ namespace Dmart.Models.DBoperation
             }
         }
 
-        public List<OrderDetail> ShowProductToEdit(OrderDetail model,int id)
+        public List<OrderDetail> ShowProductToEdit(int id)
         {
             connection();
             List<OrderDetail> OrderList = new List<OrderDetail>();
@@ -201,11 +201,38 @@ namespace Dmart.Models.DBoperation
                 {
                     ProductName = Convert.ToString(dr["productname"]),
                     Quatity = Convert.ToInt32(dr["Quatity"]),
-                    UnitPrice = Convert.ToInt32(dr["UnitPrice"])
-
+                    UnitPrice = Convert.ToInt32(dr["UnitPrice"]),
+                    ProductAmount = Convert.ToInt32(dr["Amount"])
                 }); 
             }
             return OrderList;
+        }
+
+        public List<OrderModel> Invoice (int id)
+        {
+            connection();
+            List<OrderModel> Invoice = new List<OrderModel>();
+            SqlCommand cmd = new SqlCommand("Invoice", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@id", id);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            con.Open();
+            da.Fill(dt);
+            con.Close();
+            foreach (DataRow dr in dt.Rows)
+            {
+                Invoice.Add(new OrderModel()
+                {
+                    
+                   OrderId = Convert.ToInt32(dr["OrderNumber"]),
+                    OrderDate = Convert.ToDateTime(dr["OrderDate"]),
+                    CustomerName = Convert.ToString(dr["CustomerName"]),
+                    SellerName = Convert.ToString(dr["SellerName"]),
+                    SellerContact = Convert.ToDouble(dr["ContactNumber"])
+                });
+            }
+            return Invoice;
         }
     }
 }
