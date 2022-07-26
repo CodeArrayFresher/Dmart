@@ -36,19 +36,25 @@ namespace Dmart.Controllers
 
         public  ActionResult Insert()
         {
-            var model = new OrderModel();
+            var model = new ProductModel();
             model.CustomerList= repo.GetCustomers();
             model.ProductList = repo.GetAllProducts();
+     
             return View(model);
         }
-
-        [HttpPost]
-        public ActionResult InsertData(OrderModel model)
+        public ActionResult _TableRow()
         {
-            var customer = model.CustomerID;
-            repo.AddData(model,customer);
-            return RedirectToAction("Index");
+            var model = new ProductModel();
+            model.ProductList = repo.GetAllProducts();
+            return PartialView("_TableRow", model);
         }
+        [HttpPost]
+        //public ActionResult InsertData(ProductModel model)
+        //{
+        //    var customer = model.CustomerId;
+        //    repo.AddData(model,customer);
+        //    return RedirectToAction("Index");
+        //}
 
         public int getUnitPrice(int id)
         {
@@ -57,36 +63,54 @@ namespace Dmart.Controllers
             return model.productPrice;
         }
 
-        public ActionResult _TableRow()
-        {
-            var model = new OrderModel();
-            model.CustomerList = repo.GetCustomers();
-            model.ProductList = repo.GetAllProducts();
-            return PartialView("_TableRow",model);
-        }
+      
 
-        public ActionResult Edit(OrderModel models,int id)
+        public ActionResult Edit(int id)
         {
-            var model = new OrderModel();
-            var orderDetail = new OrderDetail();
+            var model = new ProductModel();
             
             model.showproducttoedit = repo.ShowProductToEdit(id);
-       
-            model.ProductList = repo.GetAllProducts();
-            //var model = new OrderModel();
-            //model.CustomerList = repo.GetCustomers();
-            //model.ProductList = repo.GetAllProducts();
+
+            foreach (var item in model.showproducttoedit)
+            {
+            item.ProductList = repo.GetAllProducts();
+            }
+        
             return View(model);
 
         }
+        [HttpPost]
+        public ActionResult Edit(ProductModel model)
+        {
+            return RedirectToAction("Index");
+        }
+        public ActionResult _TableRowEdit()
+        {
+            var model = new ProductModel();
+        
+           
+                model.ProductList = repo.GetAllProducts();
+          
+            return PartialView("_TableRowEdit",model);
+        }
+
+
 
         public ActionResult Invoice(int id)
         {
             var model = new OrderModel();
             var orderDetail = new OrderDetail();
               model.Invoice =repo.Invoice(id);
-            model.showproducttoedit = repo.ShowProductToEdit(id);
+            //model.showproducttoedit = repo.ShowProductToEdit(id);
             return View(model);
         }
+        //public ActionResult _TableRowEdit()
+        //{
+        //    var model = new OrderModel();
+        //    model.CustomerList = repo.GetCustomers();
+        //    model.ProductList = repo.GetAllProducts();
+        //    return PartialView("_TableRowEdit", model);
+        //}
+
     }
 }

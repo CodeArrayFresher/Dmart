@@ -1,4 +1,4 @@
-﻿@model Dmart.Models.OrderModel
+﻿@model Dmart.Models.ProductModel
 @{
     ViewBag.Title = "Insert";
 }
@@ -25,7 +25,7 @@
             <option value="Shubham">Shubham</option>
             <option value="Jeera">Jeera</option>
         </select>*@
-        @Html.DropDownListFor(model => model.CustomerID, new SelectList(Model.CustomerList, "id", "Name"))
+        @Html.DropDownListFor(model => model.CustomerId, new SelectList(Model.CustomerList, "id", "Name"))
         @*@Html.DropDownListFor(model => model.productId, new SelectList(Model.ProductList, "ProductId", "Name"))*@
 
 

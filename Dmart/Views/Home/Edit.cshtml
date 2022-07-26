@@ -1,15 +1,12 @@
-﻿@model Dmart.Models.OrderModel
+﻿@model Dmart.Models.ProductModel
 @{
     ViewBag.Title = "Edit";
 }
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit","Home",FormMethod.Post))
 {
-
-
-
     <button type="button" class="btn btn-success ADD">Add</button>
     <br />
     <table class="table table-dark" id="tbl">
@@ -23,24 +20,7 @@
        
             @foreach (var item in Model.showproducttoedit)
             {
-        <tr>
-               <td>
-              
-            @Html.DropDownListFor(model => model.product.ProductId, new SelectList(Model.ProductList, "ProductId", "Name"), item.ProductName, new { @class="proddropdown", @onchange = "getdropdownid(this)"})
-        </td>
-        <td class="unitpricetd">
-            @Html.EditorFor(model => model.product.unitPrice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true, @Value = item.UnitPrice } })
-        </td>
-        <td>
-            @Html.EditorFor(model => model.product.Quantity, new { htmlAttributes = new { @class = "text-center", @onchange = "calamnt(this)", @required = true, @Value = item.Quatity } })
-        </td>
-        <td>
-            @Html.EditorFor(model => model.product.TotalAmount, new { htmlAttributes = new { @class = "text-center amount", @required = true } })
-        </td>
-        <td>
-            <button type="button" class="btn btn-danger delete">Delete</button>
-        </td>
-        </tr>
+                @Html.Partial("~/Views/Home/_TableRowEdit.cshtml",item)
             }
     </table>
 
@@ -48,12 +28,15 @@
 }
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
+    $('#tbl').on('click', '.delete', function () {
+        $(this).closest('tr').remove();
+    });
 
     $(".ADD").click(function () {
 
         $.ajax({
             type: "get",
-            url: "/Home/_TableRow",
+            url: "/Home/_TableRowEdit",
             /*            data: { 'id': a },*/
             success: function (x) {
                 $("#tbl").append(x);
@@ -63,8 +46,49 @@
             },
         }
         )
-        ++srno;
+
         //console.log(cname, pname, quantity, unit_price, amount);
     });
+    function calamnt(id) {
+        var a = $(id);
+        var quantity = $(id).val();
+        console.log(id);
+        var unitprice = $(a).parent().parent().find(".unitpricechange").val();
+        //console.log(unitprice);
 
+
+        var d = $(id).parent().parent().find(".amount").val(quantity * unitprice);
+        console.log(d);
+    }
+
+
+    function getdropdownid(id) {
+        var a = $(id).val();
+        var b = $(id);
+        console.log(b);
+        console.log(a);
+        $.ajax({
+            type: "get",
+            url: "/Home/getUnitPrice",
+            data: { 'id': a },
+            success: function (x) {
+                if (x != 0) {
+                    //$("#unit" + srno).val('x');
+                    //console.log(x);
+                    Price = x;
+                    //console.log($(b).parent().siblings().find('.unitprice').text(Price));
+                    $(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange').val(Price);
+                }
+                else {
+                    console.log("error");
+                }
+            },
+            error: function () {
+                alert("Dynamic content load failed");
+            },
+        }
+        )
+
+
+    }
 </script>

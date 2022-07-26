@@ -183,10 +183,10 @@ namespace Dmart.Models.DBoperation
             }
         }
 
-        public List<OrderDetail> ShowProductToEdit(int id)
+        public List<ProductModel> ShowProductToEdit(int id)
         {
             connection();
-            List<OrderDetail> OrderList = new List<OrderDetail>();
+            List<ProductModel> OrderList = new List<ProductModel>();
             SqlCommand cmd = new SqlCommand("ShowProductToEdit", con);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@id", id);
@@ -197,12 +197,13 @@ namespace Dmart.Models.DBoperation
             con.Close();
             foreach (DataRow dr in dt.Rows)
             {
-                OrderList.Add(new OrderDetail()
-                {
-                    ProductName = Convert.ToString(dr["productname"]),
-                    Quatity = Convert.ToInt32(dr["Quatity"]),
-                    UnitPrice = Convert.ToInt32(dr["UnitPrice"]),
-                    ProductAmount = Convert.ToInt32(dr["Amount"])
+                OrderList.Add(new ProductModel()
+                {   
+                    ProductId = Convert.ToInt32(dr["Id"]),
+                    Name = Convert.ToString(dr["productname"]),
+                    Quantity = Convert.ToInt32(dr["Quatity"]),
+                    unitPrice = Convert.ToInt32(dr["UnitPrice"]),
+                    TotalAmount = Convert.ToInt32(dr["Amount"])
                 }); 
             }
             return OrderList;

@@ -116,7 +116,7 @@
 
 
 <div class="col-md-12">
-    <div class="row">
+    <div class="row" id="printpdf">
 
         <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
 
@@ -186,6 +186,7 @@
                         <div class="receipt-right">
                             <p><b>Date & Time :</b> @DateTime.Now</p>
                             <h5 style="color: rgb(140, 140, 140);">Thanks for shopping.!</h5>
+                            <input type="button" onclick="printDiv('printpdf')" value="print" />
                         </div>
                     </div>
 
@@ -197,6 +198,7 @@
 </div>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
+    console.log($('#printpdf'));
     var sum = 0;
     $('.amount').each(function (index, value) {
         sum = sum + (parseInt(value.textContent))
@@ -207,4 +209,16 @@
     $(function () {
         $('#totalamount').text(sum);
     });
+
+    function printDiv(divName) {
+        console.log(divName);
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
 </script>

@@ -2,14 +2,24 @@
 @{
     ViewBag.Title = "Jqeury";
 }
-<div id="prntdiv" style="background-color: black; color: white;">
+<style>
+
+    .prntdivd
+    {
+        background-color: black;
+        color:white;
+    }
+</style>
+<div id="prntdiv">
     <h1>Hello my name is siddhesh </h1>
 </div>
 <button type="button">Print</button>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
+  
+
     $('button').on('click', function () {
-        var content = $('#printdiv').html();
+        var content = $('#prntdiv').html().addClass('.pentdivd');
         var winprint = window.open('', '', 'left=100,top=100,width=1200,height=1500');
         winprint.document.write(content);
         winprint.print();

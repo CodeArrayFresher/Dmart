@@ -3,7 +3,7 @@
     @using (Html.BeginCollectionItem("UpdatedOrderList"))
     {
         <td>
-            @Html.DropDownListFor(model => model.ProductId, new SelectList(Model.ProductList, "ProductId", "Name"), "select", new { @onchange = "getdropdownid(this)" })
+            @Html.DropDownListFor(model => model.ProductId, new SelectList(Model.ProductList, "ProductId", "Name"),"select" , new { @onchange = "getdropdownid(this)" })
         </td>
         <td class="unitpricetd">
             @Html.EditorFor(model => model.unitPrice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true } })
@@ -18,4 +18,4 @@
             <button type="button" class="btn btn-danger delete">Delete</button>
         </td>
     }
-</tr>   
+</tr>
