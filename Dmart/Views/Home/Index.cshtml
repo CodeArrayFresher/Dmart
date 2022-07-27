@@ -21,77 +21,56 @@
 
     <button id="collapseall" type="button" style="display:none;"> Collapse All </button>
     <br /> <br />
-    <table class="table table-bordered table-hover text-center" id="Tab" style="border: 1px solid #A0A0A0">
-        <tr class="text-center">
-            <th></th>
-            <th class="text-center">
-                @Html.DisplayNameFor(model => model.OrderId)
-            </th>
-            <th class="text-center">
-                @Html.DisplayNameFor(model => model.OrderDate)
-            </th>
-            <th class="text-center">
-                @Html.DisplayNameFor(model => model.CustomerName)
-            </th>  
-            <th class="text-center">
-               Edit
-            </th> 
-            <th class="text-center">
-               View Invoice
-            </th>
-        </tr>
-        @foreach (var item in Model.OrderList)
-        {
-            <tr class="trlist">
-                <td>
-                    <img src="~/Content/plus.png" height="20" width="20" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CustomerName)
-                </td>
-                <td>
-                    <button type="button">@Html.ActionLink("Edit","Edit",new {id =item.OrderId})</button>
-                </td>       
-                <td>
-                    <button type="button">@Html.ActionLink("Invoice","Invoice",new {id =item.OrderId})</button>
-                </td>
-            </tr>
-            <tr class="trlist productTable" style="display:none;">
-                <td colspan='999'>
+           <table class="table table-bordered table-hover text-center" id="Tab" style="border: 1px solid #A0A0A0">
+               <tr class="text-center">
+                   <th></th>
+                   <th class="text-center">
+                       @Html.DisplayNameFor(model => model.OrderId)
+                   </th>
+                   <th class="text-center">
+                       @Html.DisplayNameFor(model => model.OrderDate)
+                   </th>
+                   <th class="text-center">
+                       @Html.DisplayNameFor(model => model.CustomerName)
+                   </th>
+                   <th class="text-center">
+                       Edit
+                   </th>
+                   <th class="text-center">
+                       View Invoice
+                   </th>
+               </tr>
+               @foreach (var item in Model.OrderList)
+               {
+                   <tr class="trlist">
+                       <td>
+                           <img src="~/Content/plus.png" height="20" width="20" onclick="GetProduct(this)" />
+                       </td>
+                       <td class="OrderID">
+                           @Html.DisplayFor(modelItem => item.OrderId)
+                       </td>
+                       <td>
+                           @Html.DisplayFor(modelItem => item.OrderDate)
+                       </td>
+                       <td>
+                           @Html.DisplayFor(modelItem => item.CustomerName)
+                       </td>
+                       <td>
+                           <button type="button">@Html.ActionLink("Edit", "Edit", new { id = item.OrderId })</button>
+                       </td>
+                       <td>
+                           <button type="button">@Html.ActionLink("Invoice", "Invoice", new { id = item.OrderId })</button>
+                       </td>
+                   </tr>
+                   @*<tr class="trlist productTable">
+                    <td colspan='999'>
+                @Html.Partial("/Views/Home/_IndexProductList.cshtml");
+                       </td>
+            </tr>*@
 
-                    <table class="table table-dark innerDiv">
-                        <tr>
-                            <th class="text-center">Product_ID</th>
-                            <th class="text-center">Prdouct_Name</th>
-                            <th class="text-center">Quantity</th>
-                            <th class="text-center">Unit_price</th>
-                        </tr>
+               }
 
-                        @foreach (var prd in Model.ProductList.Where(x => x.OrderId == item.OrderId).OrderBy(x => x.ProductId))
-                        {
-
-                            <tr>
-                                <td> @Html.DisplayFor(modelPrd => prd.ProductId)</td>
-                                <td> @Html.DisplayFor(modelPrd => prd.Name)</td>
-                                <td> @Html.DisplayFor(modelPrd => prd.Quantity)</td>
-                                <td> @Html.DisplayFor(modelPrd => prd.unitPrice)</td>
-                            </tr>
-
-                        }
-
-                    </table>
-                </td>
-            </tr>
-
-        }
-
-    </table>
+           </table>
 
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script type="text/javascript">
@@ -109,6 +88,33 @@
 
 
 
+        function GetProduct(id) {
+            //console.log(id)
+            var ids = $(id).parent().parent().find('.OrderID')[0].innerText;
+            var ids2 = parseInt(ids);
+            var html = `<tr class="trlist productTable"><td colspan = '999'></td></tr>`
+            //console.log(html);
+            $.ajax({
+                type: "get",
+                url: '/Home/_IndexProductList',
+                data: { 'id': ids2 },
+                success: function (x) {
+                    //console.log();
+                   //var a = HtmlEncode(x)
+                    $(id).parent().parent().next().append(x);
+                    //$('.productTable').append(x);
+                },
+                error: function () {
+                    alert("dynamic content not found");
+                },
+            })
+            //console.log(typeof(ids2));
+
+        }
+
+
+
+
 
         $(document).on('click', '#expandall', function () {
 
@@ -121,6 +127,7 @@
                 }
 
                 $(e).next('.productTable').toggle(500, "linear");
+
 
 
 

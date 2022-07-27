@@ -55,27 +55,28 @@
         console.log(id);
         var unitprice = $(a).parent().parent().find(".unitpricechange").val();
         //console.log(unitprice);
-
-
         var d = $(id).parent().parent().find(".amount").val(quantity * unitprice);
         console.log(d);
     }
 
 
     function getdropdownid(id) {
+        debugger;
         var a = $(id).val();
         var b = $(id);
-        console.log(b);
+        var c = parseInt(a)
+        console.log(typeof(c));
+        //console.log(b);
         console.log(a);
         $.ajax({
             type: "get",
-            url: "/Home/getUnitPrice",
-            data: { 'id': a },
+            url: "/Home/GetUnitPrice",
+            data: { 'id': c },
             success: function (x) {
                 if (x != 0) {
                     //$("#unit" + srno).val('x');
                     //console.log(x);
-                    Price = x;
+                   var Price = x;
                     //console.log($(b).parent().siblings().find('.unitprice').text(Price));
                     $(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange').val(Price);
                 }
@@ -83,8 +84,8 @@
                     console.log("error");
                 }
             },
-            error: function () {
-                alert("Dynamic content load failed");
+            error: function (e) {
+                alert(e);
             },
         }
         )

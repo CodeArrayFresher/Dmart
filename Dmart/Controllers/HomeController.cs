@@ -17,13 +17,10 @@ namespace Dmart.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            //var result = new OrderDetail();
-            //result.or = repo.GetOrderDetails();
-            //return View(model);
-            //var model = repo.GetOrders();
+           
             var model = new OrderModel();
 
-            model.ProductList = repo.GetProducts();
+            //model.ProductList = repo.GetProducts();
 
             model.OrderList = repo.GetOrders();
             return View(model);
@@ -42,25 +39,39 @@ namespace Dmart.Controllers
      
             return View(model);
         }
+
+        public ActionResult _IndexProductList(int id)
+        {
+            
+            var model = new OrderModel();
+            model.ProductList = repo.GetProducts(id);
+            return PartialView("_IndexProductList", model);
+        }
+
+
+
         public ActionResult _TableRow()
         {
             var model = new ProductModel();
             model.ProductList = repo.GetAllProducts();
             return PartialView("_TableRow", model);
         }
-        [HttpPost]
-        //public ActionResult InsertData(ProductModel model)
-        //{
-        //    var customer = model.CustomerId;
-        //    repo.AddData(model,customer);
-        //    return RedirectToAction("Index");
-        //}
 
-        public int getUnitPrice(int id)
+        [HttpPost]
+        public ActionResult InsertData(OrderModel model)
         {
-            var model = new OrderModel();
-            model.productPrice = repo.GetProductPrice(id);
-            return model.productPrice;
+            var customer = model.CustomerID;
+            repo.AddData(model, customer);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public int GetUnitPrice(int id)
+        {
+            int price = repo.GetProductPrice(id);
+            //var model = new ProductModel();
+            //model.productPrice = repo.GetProductPrice(id);
+            return price;
         }
 
       
@@ -71,11 +82,12 @@ namespace Dmart.Controllers
             
             model.showproducttoedit = repo.ShowProductToEdit(id);
 
+            var temp = repo.GetAllProducts();
             foreach (var item in model.showproducttoedit)
             {
-            item.ProductList = repo.GetAllProducts();
+                item.ProductList = temp;
             }
-        
+
             return View(model);
 
         }
@@ -99,9 +111,9 @@ namespace Dmart.Controllers
         public ActionResult Invoice(int id)
         {
             var model = new OrderModel();
-            var orderDetail = new OrderDetail();
+  
               model.Invoice =repo.Invoice(id);
-            //model.showproducttoedit = repo.ShowProductToEdit(id);
+            model.showproducttoedit = repo.ShowProductToEdit(id);
             return View(model);
         }
         //public ActionResult _TableRowEdit()
@@ -111,6 +123,10 @@ namespace Dmart.Controllers
         //    model.ProductList = repo.GetAllProducts();
         //    return PartialView("_TableRowEdit", model);
         //}
-
+        //[HttpGet]
+        //public string test(int id)
+        //{
+        //    return "done"+id;
+        //}
     }
 }

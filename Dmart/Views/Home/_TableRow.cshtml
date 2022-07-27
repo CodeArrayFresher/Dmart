@@ -1,6 +1,6 @@
 ﻿@model Dmart.Models.ProductModel
 <tr>
-    @using (Html.BeginCollectionItem("UpdatedOrderList"))
+    @using (Html.BeginCollectionItem("InsertOrderList"))
     {
         <td>
             @Html.DropDownListFor(model => model.ProductId, new SelectList(Model.ProductList, "ProductId", "Name"), "select", new { @onchange = "getdropdownid(this)" })

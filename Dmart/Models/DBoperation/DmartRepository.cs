@@ -45,12 +45,14 @@ namespace Dmart.Models.DBoperation
             return OrderList;
         }
 
-        public List<ProductModel> GetProducts()
+        public List<ProductModel> GetProducts(int id)
         {
             connection();
             List<ProductModel> ProductList = new List<ProductModel>();
 
             SqlCommand cmd = new SqlCommand("ProductDetailList", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@id", id);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             con.Open();
@@ -60,13 +62,12 @@ namespace Dmart.Models.DBoperation
             {
                 ProductList.Add(new ProductModel()
                 {
-          
-                  OrderId= Convert.ToInt32(dr["OrderId"]),
+
                     ProductId = Convert.ToInt32(dr["ProductId"]),
-                    Name = Convert.ToString(dr["ProductName"]),
+                    Name = Convert.ToString(dr["Name"]),
                     Quantity = Convert.ToInt32(dr["Quantity"]),
                     unitPrice = Convert.ToDouble(dr["UnitPrice"]),
-                  TotalAmount = Convert.ToDouble(dr["Amount"])
+                
 
                 });
             }

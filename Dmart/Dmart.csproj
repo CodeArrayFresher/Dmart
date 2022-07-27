@@ -178,6 +178,7 @@
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Home\Invoice.cshtml" />
     <Content Include="Views\Home\_TableRowEdit.cshtml" />
+    <Content Include="Views\Home\_IndexProductList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

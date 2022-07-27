@@ -164,10 +164,10 @@
                         @foreach (var item in Model.showproducttoedit)
                         {
                             <tr>
-                                <td>@Html.DisplayFor(x => item.ProductName)</td>
-                                <td>@Html.DisplayFor(x => item.Quatity)</td>
-                                <td>@Html.DisplayFor(x => item.UnitPrice)</td>
-                                <td class="amount">@Html.DisplayFor(x => item.ProductAmount)</td>
+                                <td>@Html.DisplayFor(x => item.Name)</td>
+                                <td>@Html.DisplayFor(x => item.unitPrice)</td>
+                                <td>@Html.DisplayFor(x => item.Quantity)</td>
+                                <td class="amount">@Html.DisplayFor(x => item.TotalAmount)</td>
                             </tr>
                         }
                         <tr>

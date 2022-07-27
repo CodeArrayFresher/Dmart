@@ -21,9 +21,11 @@ namespace Dmart.Models
         public int Quantity { get; set; }
         public double unitPrice { get; set; }
         public double TotalAmount { get; set; }
-       public List<ProductModel> showproducttoedit { get; set; }
+        public int productPrice { get; set; }
+        public List<ProductModel> showproducttoedit { get; set; }
        public List<ProductModel> ProductList { get; set; }
        public List<ProductModel> UpdatedOrderList { get; set; }
         public List<CustomerModel> CustomerList { get; set; }
+        public OrderModel OrderModels { get; set; }
     }
 }
