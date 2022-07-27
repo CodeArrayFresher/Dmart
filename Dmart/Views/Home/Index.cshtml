@@ -62,6 +62,9 @@
                            <button type="button">@Html.ActionLink("Invoice", "Invoice", new { id = item.OrderId })</button>
                        </td>
                    </tr>
+                   <tr class="productTable">
+                       
+                   </tr>
                    @*<tr class="trlist productTable">
                     <td colspan='999'>
                 @Html.Partial("/Views/Home/_IndexProductList.cshtml");
@@ -92,7 +95,7 @@
             //console.log(id)
             var ids = $(id).parent().parent().find('.OrderID')[0].innerText;
             var ids2 = parseInt(ids);
-            var html = `<tr class="trlist productTable"><td colspan = '999'></td></tr>`
+            //var html = `<tr class="trlist productTable"><td colspan = '999'></td></tr>`
             //console.log(html);
             $.ajax({
                 type: "get",
