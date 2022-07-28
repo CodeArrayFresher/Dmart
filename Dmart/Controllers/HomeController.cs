@@ -26,19 +26,10 @@ namespace Dmart.Controllers
             return View(model);
             
         }
-        public ActionResult Jqeury()
-        {
-            return View();  
-        }
-
-        public  ActionResult Insert()
-        {
-            var model = new ProductModel();
-            model.CustomerList= repo.GetCustomers();
-            model.ProductList = repo.GetAllProducts();
-     
-            return View(model);
-        }
+        //public ActionResult Jqeury()
+        //{
+        //    return View();  
+        //}
 
         public ActionResult _IndexProductList(int id)
         {
@@ -49,6 +40,15 @@ namespace Dmart.Controllers
         }
 
 
+        public  ActionResult Insert()
+        {
+            var model = new ProductModel();
+            model.CustomerList= repo.GetCustomers();
+            model.ProductList = repo.GetAllProducts();
+     
+            return View(model);
+        }
+
 
         public ActionResult _TableRow()
         {
@@ -58,9 +58,9 @@ namespace Dmart.Controllers
         }
 
         [HttpPost]
-        public ActionResult InsertData(OrderModel model)
+        public ActionResult InsertData(ProductModel model)
         {
-            var customer = model.CustomerID;
+            var customer = model.CustomerId;
             repo.AddData(model, customer);
             return RedirectToAction("Index");
         }
@@ -91,11 +91,19 @@ namespace Dmart.Controllers
             return View(model);
 
         }
+
+
+
         [HttpPost]
-        public ActionResult Edit(ProductModel model)
+        public ActionResult Edit(ProductModel model, int id)
         {
+            var orderid = id;
+            repo.EditData(model,orderid);
             return RedirectToAction("Index");
         }
+
+
+
         public ActionResult _TableRowEdit()
         {
             var model = new ProductModel();

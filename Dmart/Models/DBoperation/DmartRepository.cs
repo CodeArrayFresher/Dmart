@@ -138,14 +138,12 @@ namespace Dmart.Models.DBoperation
             return price;
         }
 
-        public void AddData(OrderModel model, int cust)
+        public void AddData(ProductModel model, int cust)
         {
-
-
             var orderId = model.OrderId;
             var orderDate = model.OrderDate;
             var customerid = cust;
-            var output = JsonConvert.SerializeObject(model.OrderList.Select(x => new { x.product.ProductId, x.product.Quantity, x.product.unitPrice }));
+            var output = JsonConvert.SerializeObject(model.InsertOrderList.Select(x => new { x.ProductId, x.Quantity, x.unitPrice }));
 
             //DataTable dt = new DataTable();
             //DataColumn dc = new DataColumn("productId", typeof(Int32));
@@ -209,6 +207,25 @@ namespace Dmart.Models.DBoperation
             }
             return OrderList;
         }
+
+        public void EditData(ProductModel model,int id)
+        {
+            var orderid = id;
+            var JsonData = JsonConvert.SerializeObject(model.UpdatedOrderList.Select(x => new {orderid, x.ProductId, x.Quantity, x.unitPrice, }));
+            connection();
+            con.Open();
+            using (var command = new SqlCommand("UpdateData", con))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@JsonData", JsonData);
+                command.ExecuteNonQuery();
+                con.Close();
+            }
+
+            //var output = JsonConvert.SerializeObject(model.OrderList.Select(x => new { x.product.ProductId, x.product.Quantity, x.product.unitPrice }));
+        }
+
+
 
         public List<OrderModel> Invoice (int id)
         {

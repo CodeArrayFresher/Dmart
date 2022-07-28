@@ -27,5 +27,6 @@ namespace Dmart.Models
        public List<ProductModel> UpdatedOrderList { get; set; }
         public List<CustomerModel> CustomerList { get; set; }
         public OrderModel OrderModels { get; set; }
+        public List<ProductModel> InsertOrderList { get; set; }
     }
 }
