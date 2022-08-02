@@ -124,7 +124,7 @@ namespace Dmart.Models.DBoperation
             }
             return ProductList;
         }
-        public int GetProductPrice(int id, DateTime date)
+        public int GetProductPrice(int id)
         {
             connection();
             int price= 0;
@@ -244,9 +244,9 @@ namespace Dmart.Models.DBoperation
         }
 
 
-        public void UpdatePrice(ProductModel model)
+        public void UpdatePrice(ProductModel model, DateTime date)
         {
-           
+            var dates = date;
             var output = JsonConvert.SerializeObject(model.UpdatedOrderList.Select(x => new { x.ProductId, x.UpdatedPrice, x.FromDate}));
             connection();
             con.Open();
@@ -254,6 +254,7 @@ namespace Dmart.Models.DBoperation
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@JsonData", output);
+                command.Parameters.AddWithValue("@Dates", dates);
                 command.ExecuteNonQuery();
                 con.Close();
                 

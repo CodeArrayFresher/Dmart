@@ -136,6 +136,7 @@ namespace Dmart.Controllers
         public ActionResult _UpdateProductPrice()
         {
             var model = new ProductModel();
+           
             model.ProductList = repo.GetAllProducts();
             return PartialView("_UpdateProductPrice",model);
         }
@@ -143,7 +144,8 @@ namespace Dmart.Controllers
         [HttpPost]
         public ActionResult UpdateProductPrice(ProductModel model)
         {
-            repo.UpdatePrice(model);
+            DateTime curr_date = DateTime.Now;
+            repo.UpdatePrice(model,curr_date);
             return RedirectToAction("Index");
 
         }
