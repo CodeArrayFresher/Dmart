@@ -45,14 +45,20 @@ namespace Dmart.Models.DBoperation
             return OrderList;
         }
 
-        public List<ProductModel> GetProducts(int id)
+        public List<ProductModel> GetProducts(string[] id)
         {
+            string IDS = "";
+            foreach (var ids in id)
+            {
+                IDS += ids.ToString() + ',';
+            }
+            var a = IDS.Remove(IDS.Length - 1, 1);
             connection();
             List<ProductModel> ProductList = new List<ProductModel>();
 
             SqlCommand cmd = new SqlCommand("ProductDetailList", con);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@ids", a);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             con.Open();
@@ -62,7 +68,7 @@ namespace Dmart.Models.DBoperation
             {
                 ProductList.Add(new ProductModel()
                 {
-
+                    OrderId = Convert.ToInt32(dr["OrderId"]),
                     ProductId = Convert.ToInt32(dr["ProductId"]),
                     Name = Convert.ToString(dr["Name"]),
                     Quantity = Convert.ToInt32(dr["Quantity"]),
@@ -112,7 +118,7 @@ namespace Dmart.Models.DBoperation
                 {
                  ProductId = Convert.ToInt32(dr["Id"]),
                  Name = Convert.ToString(dr["Name"]),
-                 unitPrice = Convert.ToInt32(dr["Price"]),
+          
                  
                 });
             }
@@ -145,25 +151,7 @@ namespace Dmart.Models.DBoperation
             var customerid = cust;
             var output = JsonConvert.SerializeObject(model.InsertOrderList.Select(x => new { x.ProductId, x.Quantity, x.unitPrice }));
 
-            //DataTable dt = new DataTable();
-            //DataColumn dc = new DataColumn("productId", typeof(Int32));
-            //dt.Columns.Add(dc); 
-            //dc = new DataColumn("CustomerId", typeof(Int32));
-            //dt.Columns.Add(dc);
-            //dc = new DataColumn("UnitPrice", typeof(Int32));
-            //dt.Columns.Add(dc);
-            //dc = new DataColumn("Quantity", typeof(Int32));
-            //dt.Columns.Add(dc);
-
-            //foreach (var item in model.OrderList)
-            //{
-            //    DataRow dr = dt.NewRow();
-            //    dr[0] = item.product.ProductId;
-            //    dr[1] = customerid;
-            //    dr[2] = item.product.unitPrice; 
-            //    dr[3] = item.product.Quantity; 
-            //    dt.Rows.Add(dr);
-            //}
+        
             connection();
             con.Open();
             using (var command = new SqlCommand("AddDataJson", con))
@@ -253,5 +241,26 @@ namespace Dmart.Models.DBoperation
             }
             return Invoice;
         }
+
+
+        public void UpdatePrice(ProductModel model)
+        {
+           
+            var output = JsonConvert.SerializeObject(model.UpdatedOrderList.Select(x => new { x.ProductId, x.UpdatedPrice, x.FromDate, x.ToDate }));
+            connection();
+            con.Open();
+            using (var command = new SqlCommand("UpdateProductPrice", con))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@JsonData", output);
+                command.ExecuteNonQuery();
+                con.Close();
+                
+            }
+
+  
+         
+        }
+
     }
 }

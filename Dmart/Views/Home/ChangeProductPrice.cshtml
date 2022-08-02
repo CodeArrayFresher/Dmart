@@ -11,33 +11,21 @@
 <h1>Product Cart</h1>
 <hr />
 
-@using (Html.BeginForm("InsertData","Home",FormMethod.Post))
+@using (Html.BeginForm("UpdateProductPrice", "Home", FormMethod.Post))
 {
     <div>
 
-        <label>Order Date</label>
-        @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true } })
-        <br />
-
-        <label>Select Customer</label>
-        @*<select id="customer">
-            <option value="Aman">Aman</option>
-            <option value="Shubham">Shubham</option>
-            <option value="Jeera">Jeera</option>
-        </select>*@
-        @Html.DropDownListFor(model => model.CustomerId, new SelectList(Model.CustomerList, "id", "Name"))
-        @*@Html.DropDownListFor(model => model.productId, new SelectList(Model.ProductList, "ProductId", "Name"))*@
-
-
+     
         <button type="button" class="btn btn-success ADD">Add</button>
     </div>
     <br />
     <table class="table table-dark" id="tbl">
         <tr>
             <th>Product Name</th>
-            <th>Unit Price</th>
-            <th>Quantity</th>
-            <th>Amount</th>
+            <th>Current Unit Price</th>
+            <th>Set Updated Price</th>
+            <th>From Date</th>
+            <th>To Date</th>
             <th>Delete</th>
         </tr>
 
@@ -45,7 +33,7 @@
     <button type="submit" class="btn btn-primary">Save</button>
 }
 @*<form>
-</form>*@
+    </form>*@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
     var events = @Html.Raw(Json.Encode(Model.ProductList));
@@ -54,17 +42,10 @@
 
         var srno = 1;
     $(".ADD").click(function () {
-        var cname = $('#customer').val();
-        var pname = $('#products').val();
-        var quantity = $('#quantity').val();
-        var order_date = $('#odate').val();
-        var amount = $('#amount').text();
-        @*$("#tbl").append(
-            *@
-
+     
         $.ajax({
             type: "get",
-            url: "/Home/_TableRow",
+            url: "/Home/_UpdateProductPrice",
 /*            data: { 'id': a },*/
             success: function (x) {
                 $("#tbl").append(x);
@@ -75,14 +56,9 @@
         }
         )
         ++srno;
-        //console.log(cname, pname, quantity, unit_price, amount);
+     
     });
-    //$('#quantity').on('change', function () {
-    //    var unit_price = $('#unitprice').text();
-    //    var quantity = $('#quantity').val();
-    //    $('#amount').text(unit_price * quantity);
-    //    console.log(quantity, unit_price);
-    //});
+   
 
     function calamnt(id) {
         var a = $(id);
@@ -112,7 +88,7 @@
 
 
 
-  
+
 
    function getdropdownid(id)
        {

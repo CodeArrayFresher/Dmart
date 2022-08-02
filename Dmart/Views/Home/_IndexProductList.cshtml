@@ -1,20 +1,11 @@
 ﻿@model Dmart.Models.OrderModel
 
 
-
-
-<td colspan="999" class="innertd">
-    <table class="table table-dark innerDiv" id="tbl">
-        <tr>
-            <th class="text-center">Product_ID</th>
-            <th class="text-center">Prdouct_Name</th>
-            <th class="text-center">Quantity</th>
-            <th class="text-center">Unit_price</th>
-        </tr>
+<tbody class="trsOfProducts">
 
         @foreach (var item in Model.ProductList)
         {
-            <tr>
+            <tr class="@item.OrderId">
                 <td> @Html.DisplayFor(modelPrd => item.ProductId)</td>
                 <td> @Html.DisplayFor(modelPrd => item.Name)</td>
                 <td> @Html.DisplayFor(modelPrd => item.Quantity)</td>
@@ -22,7 +13,7 @@
             </tr>
         }
 
-
+    </tbody>
 
         @*@foreach (var prd in Model.ProductList.Where(x => x.OrderId == item.OrderId).OrderBy(x => x.ProductId))
             {
@@ -30,6 +21,3 @@
              @Html.Partial("/Views/Home/_IndexProductList.cshtml",prd);
 
             }*@
-
-    </table>
-</td>

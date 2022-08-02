@@ -21,7 +21,7 @@ namespace Dmart.Controllers
             var model = new OrderModel();
 
             //model.ProductList = repo.GetProducts();
-
+           
             model.OrderList = repo.GetOrders();
             return View(model);
             
@@ -31,7 +31,7 @@ namespace Dmart.Controllers
         //    return View();  
         //}
 
-        public ActionResult _IndexProductList(int id)
+        public ActionResult _IndexProductList(string[] id)
         {
             
             var model = new OrderModel();
@@ -39,6 +39,7 @@ namespace Dmart.Controllers
             return PartialView("_IndexProductList", model);
         }
 
+        
 
         public  ActionResult Insert()
         {
@@ -107,10 +108,7 @@ namespace Dmart.Controllers
         public ActionResult _TableRowEdit()
         {
             var model = new ProductModel();
-        
-           
-                model.ProductList = repo.GetAllProducts();
-          
+            model.ProductList = repo.GetAllProducts();
             return PartialView("_TableRowEdit",model);
         }
 
@@ -124,17 +122,29 @@ namespace Dmart.Controllers
             model.showproducttoedit = repo.ShowProductToEdit(id);
             return View(model);
         }
-        //public ActionResult _TableRowEdit()
-        //{
-        //    var model = new OrderModel();
-        //    model.CustomerList = repo.GetCustomers();
-        //    model.ProductList = repo.GetAllProducts();
-        //    return PartialView("_TableRowEdit", model);
-        //}
-        //[HttpGet]
-        //public string test(int id)
-        //{
-        //    return "done"+id;
-        //}
+    
+        public ActionResult ChangeProductPrice()
+        {
+            var model = new ProductModel();
+           
+            model.ProductList = repo.GetAllProducts();
+
+            return View(model);
+        }
+
+        public ActionResult _UpdateProductPrice()
+        {
+            var model = new ProductModel();
+            model.ProductList = repo.GetAllProducts();
+            return PartialView("_UpdateProductPrice",model);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateProductPrice(ProductModel model)
+        {
+            repo.UpdatePrice(model);
+            return RedirectToAction("Index");
+
+        }
     }
 }

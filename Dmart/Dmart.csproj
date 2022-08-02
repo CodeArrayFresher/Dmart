@@ -138,7 +138,6 @@
     </Compile>
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\DBoperation\DmartRepository.cs" />
-    <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -179,6 +178,8 @@
     <Content Include="Views\Home\Invoice.cshtml" />
     <Content Include="Views\Home\_TableRowEdit.cshtml" />
     <Content Include="Views\Home\_IndexProductList.cshtml" />
+    <Content Include="Views\Home\ChangeProductPrice.cshtml" />
+    <Content Include="Views\Home\_UpdateProductPrice.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -190,10 +191,15 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\typings\html2canvas\html2canvas.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
