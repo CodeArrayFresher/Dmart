@@ -124,13 +124,14 @@ namespace Dmart.Models.DBoperation
             }
             return ProductList;
         }
-        public int GetProductPrice(int id)
+        public int GetProductPrice(int id, DateTime date)
         {
             connection();
             int price= 0;
             SqlCommand cmd = new SqlCommand("ProductPrice", con);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@dates", date);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             con.Open();
@@ -246,7 +247,7 @@ namespace Dmart.Models.DBoperation
         public void UpdatePrice(ProductModel model)
         {
            
-            var output = JsonConvert.SerializeObject(model.UpdatedOrderList.Select(x => new { x.ProductId, x.UpdatedPrice, x.FromDate, x.ToDate }));
+            var output = JsonConvert.SerializeObject(model.UpdatedOrderList.Select(x => new { x.ProductId, x.UpdatedPrice, x.FromDate}));
             connection();
             con.Open();
             using (var command = new SqlCommand("UpdateProductPrice", con))

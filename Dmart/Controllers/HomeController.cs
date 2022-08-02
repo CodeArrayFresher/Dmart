@@ -69,7 +69,8 @@ namespace Dmart.Controllers
         [HttpGet]
         public int GetUnitPrice(int id)
         {
-            int price = repo.GetProductPrice(id);
+            DateTime curr_date = DateTime.Now;
+            int price = repo.GetProductPrice(id,curr_date);
             //var model = new ProductModel();
             //model.productPrice = repo.GetProductPrice(id);
             return price;
