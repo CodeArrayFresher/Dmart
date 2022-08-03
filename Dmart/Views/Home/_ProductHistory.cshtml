@@ -1,0 +1,14 @@
+﻿@model Dmart.Models.ProductModel
+
+<tbody class="trsOfProducts">
+
+    @foreach (var item in Model.ProductList)
+    {
+        <tr class="@item.ProductId">
+            <td> @Html.DisplayFor(modelPrd => item.unitPrice)</td>
+            <td> @Html.DisplayFor(modelPrd => item.FromDate)</td>
+            <td> @Html.DisplayFor(modelPrd => item.TODATES)</td>
+        </tr>
+    }
+
+</tbody>

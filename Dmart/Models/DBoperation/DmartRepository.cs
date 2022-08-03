@@ -101,12 +101,14 @@ namespace Dmart.Models.DBoperation
             }
             return CustomerList;
         }
-        public List<ProductModel> GetAllProducts()
+        public List<ProductModel> GetAllProducts(DateTime date)
         {
             connection();
             List<ProductModel> ProductList = new List<ProductModel>();
 
             SqlCommand cmd = new SqlCommand("GetAllProducts", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@dates", date);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             con.Open();
@@ -118,13 +120,13 @@ namespace Dmart.Models.DBoperation
                 {
                  ProductId = Convert.ToInt32(dr["Id"]),
                  Name = Convert.ToString(dr["Name"]),
-          
+                 unitPrice = Convert.ToInt32(dr["Price"])
                  
                 });
             }
             return ProductList;
         }
-        public int GetProductPrice(int id)
+        public int GetProductPrice(int id,DateTime date)
         {
             connection();
             int price= 0;
@@ -244,10 +246,18 @@ namespace Dmart.Models.DBoperation
         }
 
 
-        public void UpdatePrice(ProductModel model, DateTime date)
+        public void UpdatePrice(ProductModel model)
         {
-            var dates = date;
-            var output = JsonConvert.SerializeObject(model.UpdatedOrderList.Select(x => new { x.ProductId, x.UpdatedPrice, x.FromDate}));
+            var dates = model.FromDate;
+            var obj = new 
+            {
+                ProductId = model.ProductId,
+               UpdatedPrice = model.UpdatedPrice,
+                FromDate = model.FromDate
+            };
+          
+            //var output = JsonConvert.SerializeObject(model(x => new { x.ProductId, x.UpdatedPrice, x.FromDate}));
+            var output = JsonConvert.SerializeObject(obj);
             connection();
             con.Open();
             using (var command = new SqlCommand("UpdateProductPrice", con))
@@ -259,9 +269,38 @@ namespace Dmart.Models.DBoperation
                 con.Close();
                 
             }
+        }
+        public List<ProductModel> ProductHistory(string[] id)
+        {
+            string IDS = "";
+            foreach (var ids in id)
+            {
+                IDS += ids.ToString() + ',';
+            }
+            var a = IDS.Remove(IDS.Length - 1, 1);
+            connection();
+            List<ProductModel> ProductList = new List<ProductModel>();
 
-  
-         
+            SqlCommand cmd = new SqlCommand("ProductHistory", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ids", a);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            con.Open();
+            da.Fill(dt);
+            con.Close();
+            foreach (DataRow dr in dt.Rows)
+            {
+                ProductList.Add(new ProductModel()
+                {
+                    ProductId = Convert.ToInt32(dr["ProductId"]),
+                    unitPrice = Convert.ToDouble(dr["Price"]),
+                    FromDate = Convert.ToDateTime(dr["EffectiveFromDate"]),
+                    TODATES = Convert.ToString(dr["EffectiveToDate"])
+
+                });
+            }
+            return ProductList;
         }
 
     }

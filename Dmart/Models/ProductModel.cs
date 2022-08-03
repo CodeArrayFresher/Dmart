@@ -26,5 +26,7 @@ namespace Dmart.Models
         public Nullable<System.DateTime> FromDate { get; set; }
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> ToDate { get; set; }
+
+        public string TODATES { get; set; }
     }
 }

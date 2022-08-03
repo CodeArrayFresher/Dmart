@@ -93,39 +93,55 @@
         //onclick = "GetProduct(this)"
         $('.productTable').hide();
 
-        $("body").on("click", "img[src*='plus.png']", function () {
-
-            //$(this).parent().parent().next('.productTable').show();
-            $(this).attr("src", "/Content/minus.png");
-        });
 
         $("body").on("click", "img[src*='minus.png']", function () {
             $(this).attr("src", "/Content/plus.png");
-            $(this).parent().parent().next('.productTable').empty();
+            $('.productTable').find('.innerTr').nextAll().empty();
+          $('.productTable').hide();
         });
 
         $("body").on("click", "img[src*='plus.png']", function () {
             {
                 debugger;
                 var arr = [];
-                $(".trlist").each(function (i, e) {
 
-                    var a = $(e).find('.OrderID')[0].innerHTML;
+                var a = $(this).parent().parent().find('.OrderID')[0].innerHTML;
                     var b = parseInt(a);
                     arr.push(b);
 
-                });
-                //var arr = new Array();
-                //var ids = $(this).parent().parent().find('.OrderID')[0].innerText;
-                //var elmtoappend = $(this).parent().parent().next('.productTable');
-                //console.log(elmtoappend);
-                //var ids2 = parseInt(ids);
-                //arr.push(ids2);
-                //console.log(ids2);
+            
+                var narr = new Array();
+                narr = arr;
+                narr = narr.join(",");
                 
-                //var html = `<tr class="trlist productTable"><td colspan = '999'></td></tr>`
-                //console.log(html);
-                
+                $(this).parent().parent().next('.productTable').show();
+                $(this).attr("src", "/Content/minus.png");
+                $.ajax({
+                    type: "get",
+                    url: '/Home/_IndexProductList',
+                    data: { 'id': narr },
+                    contentType: 'application/json; charset=utf-8',
+                    datatype: 'json',
+                    success: function (x) {
+                        var trs;
+                        for (var i = 0; i < arr.length; i++) {
+                            console.log(arr[i]);
+                            var a = JSON.stringify(arr[i]);
+                            console.log(a);
+
+                            trs = $(x).find("." + a);
+                            console.log(trs);
+                            $('#Tab').find('.' + a).next().find('.innerTr').after(trs);
+
+
+                        }
+
+
+                    },
+                    error: function () {
+                        alert("dynamic content not found");
+                    },
+                })
             }
         });
 

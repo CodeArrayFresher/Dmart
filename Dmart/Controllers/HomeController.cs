@@ -43,9 +43,10 @@ namespace Dmart.Controllers
 
         public  ActionResult Insert()
         {
+            DateTime date = DateTime.Now;
             var model = new ProductModel();
             model.CustomerList= repo.GetCustomers();
-            model.ProductList = repo.GetAllProducts();
+            model.ProductList = repo.GetAllProducts(date);
      
             return View(model);
         }
@@ -53,8 +54,9 @@ namespace Dmart.Controllers
 
         public ActionResult _TableRow()
         {
+            DateTime date = DateTime.Now;
             var model = new ProductModel();
-            model.ProductList = repo.GetAllProducts();
+            model.ProductList = repo.GetAllProducts(date);
             return PartialView("_TableRow", model);
         }
 
@@ -70,21 +72,19 @@ namespace Dmart.Controllers
         public int GetUnitPrice(int id)
         {
             DateTime curr_date = DateTime.Now;
-            int price = repo.GetProductPrice(id,curr_date);
-            //var model = new ProductModel();
-            //model.productPrice = repo.GetProductPrice(id);
+            int price = repo.GetProductPrice(id, curr_date);
             return price;
         }
 
-      
+
 
         public ActionResult Edit(int id)
         {
             var model = new ProductModel();
             
             model.showproducttoedit = repo.ShowProductToEdit(id);
-
-            var temp = repo.GetAllProducts();
+            DateTime date = DateTime.Now;
+            var temp = repo.GetAllProducts(date);
             foreach (var item in model.showproducttoedit)
             {
                 item.ProductList = temp;
@@ -108,8 +108,9 @@ namespace Dmart.Controllers
 
         public ActionResult _TableRowEdit()
         {
+            DateTime date = DateTime.Now;
             var model = new ProductModel();
-            model.ProductList = repo.GetAllProducts();
+            model.ProductList = repo.GetAllProducts(date);
             return PartialView("_TableRowEdit",model);
         }
 
@@ -126,18 +127,20 @@ namespace Dmart.Controllers
     
         public ActionResult ChangeProductPrice()
         {
+            DateTime date = DateTime.Now;
             var model = new ProductModel();
            
-            model.ProductList = repo.GetAllProducts();
+            model.ProductList = repo.GetAllProducts(date);
 
             return View(model);
         }
 
-        public ActionResult _UpdateProductPrice()
+        public ActionResult _UpdateProductPrice(int id)
         {
+            DateTime date = DateTime.Now;
             var model = new ProductModel();
-           
-            model.ProductList = repo.GetAllProducts();
+            model.ProductList = repo.GetAllProducts(date);
+            model.ProductId = id;
             return PartialView("_UpdateProductPrice",model);
         }
 
@@ -145,9 +148,19 @@ namespace Dmart.Controllers
         public ActionResult UpdateProductPrice(ProductModel model)
         {
             DateTime curr_date = DateTime.Now;
-            repo.UpdatePrice(model,curr_date);
-            return RedirectToAction("Index");
+            repo.UpdatePrice(model);
+            return RedirectToAction("ChangeProductPrice");
 
         }
+        [HttpGet]
+
+        public ActionResult _ProductHistory(string[] id)
+        {
+
+            var model = new ProductModel();
+            model.ProductList = repo.ProductHistory(id);
+            return PartialView("_ProductHistory", model);
+        }
+
     }
 }

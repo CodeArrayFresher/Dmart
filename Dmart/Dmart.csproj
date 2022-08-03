@@ -180,6 +180,7 @@
     <Content Include="Views\Home\_IndexProductList.cshtml" />
     <Content Include="Views\Home\ChangeProductPrice.cshtml" />
     <Content Include="Views\Home\_UpdateProductPrice.cshtml" />
+    <Content Include="Views\Home\_ProductHistory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

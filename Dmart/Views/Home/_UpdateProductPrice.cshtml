@@ -1,21 +1,39 @@
 ﻿@model Dmart.Models.ProductModel
-<tr>
-    @using (Html.BeginCollectionItem("UpdatedOrderList"))
-    {
-        <td>
-            @Html.DropDownListFor(model => model.ProductId, new SelectList(Model.ProductList, "ProductId", "Name"), "select", new { @onchange = "getdropdownid(this)" })
-        </td>
-        <td class="unitpricetd">
-            @Html.EditorFor(model => model.unitPrice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true } })
-        </td>
-        <td>
-            @Html.EditorFor(model => model.UpdatedPrice, new { htmlAttributes = new { @class = "text-center", @onchange = "calamnt(this)", @required = true } })
-        </td>
-        <td>
-            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "text-center amount", @required = true } })
-        </td>   
-        <td>
-            <button type="button" class="btn btn-danger delete">Delete</button>
-        </td>
+<style>
+    form {
+        padding-left: 2rem;
+        height:4rem;
     }
-</tr>
+
+    label {
+        font-weight: bold;
+        padding: 0.2rem;
+    }
+    .modal-body{
+        height:10rem;
+    }
+</style>
+<div class="modal-body">
+    @using (Html.BeginForm("UpdateProductPrice","Home",FormMethod.Post))
+    {
+        <div class="form-group">
+            <label>Update Price</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UpdatedPrice, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <br /> <br />
+        <div class="form-group">
+            <label>Set Effective From Date</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <br /> <br />
+       @Html.HiddenFor(x=> x.ProductId)
+        <button type="submit" value="Save" class="btn btn-success" >Save</button>
+
+    }
+
+
+</div>
