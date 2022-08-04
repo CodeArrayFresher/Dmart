@@ -318,6 +318,27 @@ namespace Dmart.Models.DBoperation
             //var output = JsonConvert.SerializeObject(model.OrderList.Select(x => new { x.product.ProductId, x.product.Quantity, x.product.unitPrice }));
         }
 
+        public decimal GetDiscountPrice(int id, DateTime date)
+        {
+            connection();
+            decimal price = 0;
+            SqlCommand cmd = new SqlCommand("GetDiscountPrice", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@currdate", date);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            con.Open();
+            da.Fill(dt);
+            con.Close();
+            if (dt.Rows.Count > 0)
+            {
+                DataRow row = dt.Rows[0];
+                price = Convert.ToDecimal(row["amount"]);
+            }
+            return price;
+        }
+
 
     }
 }

@@ -9,6 +9,7 @@ namespace Dmart.Models
     public class DiscountModel
     {
         public int ProductId { get; set; }
+        public decimal getdiscountvalue { get; set; }
         public int unitprice { get; set; }
         public string ProductName { get; set; }
         public int DiscountValue { get; set; }

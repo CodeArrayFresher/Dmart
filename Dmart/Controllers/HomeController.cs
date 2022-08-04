@@ -189,5 +189,12 @@ namespace Dmart.Controllers
             return RedirectToAction("Discount_Master");
         }
 
+        public decimal GetDiscountPrice(int id)
+        {
+            DateTime curr_date = DateTime.Now;
+            decimal price = repo.GetDiscountPrice(id, curr_date);
+            return price;
+        }
+
     }
 }

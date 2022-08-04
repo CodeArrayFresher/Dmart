@@ -54,9 +54,9 @@
     function getdropdownid(id) {
         var a = $(id).val();
         var b = $(id);
-        console.log(b);
-        console.log(a);
-
+        //console.log(b);
+        //console.log(a);
+        getdiscount(a,b);
         $.ajax({
             type: "get",
             url: "/Home/getUnitPrice",
@@ -78,7 +78,32 @@
             },
         }
         )
+    }
+    function getdiscount(id,elm) {
+        $.ajax({
+            type: "get",
+            url: "/Home/GetDiscountPrice",
+            data: { 'id': id },
+            success: function (x) {
+                if (x != 0) {
+                    //$("#unit" + srno).val('x');
+                    //console.log(x);
+                    //Price = x;
+                    //console.log($(b).parent().siblings().find('.unitprice').text(Price));
+                    console.log(x);
+                    var elms = elm[0];
+                    $(elms).parent().siblings().closest('.unitpricetd').find('unitpricechange').css('text-decoration', 'strike-through');
 
-
+                    $(elms).parent().siblings().closest('.unitpricetd').find('.discount')[0].innerHTML = 'Discount Price '+ x;
+                }
+                else {
+                    console.log("error");
+                }
+            },
+            error: function () {
+                alert("Dynamic content load failed");
+            },
+        }
+        )
     }
 </script>

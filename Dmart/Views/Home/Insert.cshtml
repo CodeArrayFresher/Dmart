@@ -113,24 +113,25 @@
 
 
   
-
+    var a;
    function getdropdownid(id)
        {
-       var a = $(id).val();
+        a = $(id).val();
        var b = $(id);
-       console.log(b);
-       console.log(a);
-
+       //var strike = b[0];
+       //console.log(b);
+       //console.log(a);
+       var c = b[0];
+       getdiscount(a,b,c);
         $.ajax({
             type: "get",
             url: "/Home/getUnitPrice",
             data: { 'id': a },
             success: function (x) {
                 if (x != 0) {
-                    
                     Price = x;
-                    
-                    $(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange').val(Price);
+                    $(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange').val(Price); 
+                     
                 }
                 else {
                     console.log("error");
@@ -143,6 +144,34 @@
         )
 
 
+    }
+
+    function getdiscount(id, elm, strike) {
+        $.ajax({
+            type: "get",
+            url: "/Home/GetDiscountPrice",
+            data: { 'id': id },
+            success: function (x) {
+                if (x != 0) {
+                    //$("#unit" + srno).val('x');
+                    //console.log(x);
+                    //Price = x;
+                    //console.log($(b).parent().siblings().find('.unitprice').text(Price));
+                    //console.log(strike);
+                    var elms = elm[0];
+                    console.log($(strike).parent().siblings().closest('.unitpricetd').find('unitpricechange')[1]);
+                    //$(b[0]).parent().siblings().closest('.unitpricetd').find('.unitpricechange').css('text-decoration', 'line-through'); 
+                    $(elms).parent().siblings().closest('.unitpricetd').find('.discount')[0].innerHTML = 'Discount Price ' + x;
+                }
+                else {
+                    console.log("error");
+                }
+            },
+            error: function () {
+                alert("Dynamic content load failed");
+            },
+        }
+        )
     }
 
     //setInterval(function () {
