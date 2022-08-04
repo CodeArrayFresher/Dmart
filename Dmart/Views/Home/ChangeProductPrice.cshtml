@@ -16,9 +16,9 @@
 
 </style>
 <body>
-    <button type="button" class="btn btn-dark">@Html.ActionLink("Change Product Price", "ChangeProductPrice")</button>
-    <h2>Order List</h2>
-    <h4>@Html.ActionLink("Insert Data", "Insert")</h4>
+
+    <h2>Product List</h2>
+
 
     <button id="expandall" type="button" class="btn btn-dark"> Expand All </button>
 
@@ -162,5 +162,76 @@
         $('.productTable').find('.innerTr').nextAll().empty();
         $('.productTable').hide();
     });
+
+
+
+    $(document).on('click', '#expandall', function () {
+        $(this)[0].innerHTML = "CollapseAll";
+        $(this).attr("id", "collapseall");
+        var arr = [];
+        $(".trlist").each(function (i, e) {
+
+            var a = $(e).find('.ProductID')[0].innerHTML;
+            var b = parseInt(a);
+            arr.push(b);
+
+        });
+        //arr = arr.map(function (e) {
+        //    return JSON.stringify(e);
+        //});
+
+        var narr = new Array();
+        narr = arr;
+        narr = narr.join(",");
+
+        $('.productTable').show();
+        $.ajax({
+            type: "get",
+            url: '/Home/_ProductHistory',
+            data: { 'id': narr },
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (x) {
+                var trs;
+                for (var i = 0; i < arr.length; i++) {
+                    //console.log(arr[i]);
+                    var a = JSON.stringify(arr[i]);
+                    console.log(x);
+
+                    trs = $(x).find("." + a);
+                    console.log(trs);
+                    $('#Tab').find('.' + a).next().find('.innerTr').after(trs);
+
+
+                    //$('#Tab').find('#' + a).next().find('.innerTr').after(x);
+
+                }
+
+
+                //$(".innerTr").each(function (i, e) {
+                //    console.log(arr);
+
+                //    //console.log($(e)[0]);
+                //    $(e).after(x);
+                //});
+
+            },
+            error: function () {
+                alert("dynamic content not found");
+            },
+        })
+
+
+    });
+
+    $(document).on('click', '#collapseall', function () {
+        $(this)[0].innerHTML = "ExpandAll";
+        $(this).attr("id", "expandall");
+        $(".trlist").each(function (i, e) {
+            $('.productTable').find('.innerTr').nextAll().empty();
+            $('.productTable').hide();
+        });
+
+    })
 
 </script>

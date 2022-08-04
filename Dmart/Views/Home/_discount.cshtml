@@ -1,0 +1,46 @@
+﻿@model Dmart.Models.DiscountModel
+<tr>
+    @using (Html.BeginCollectionItem("Add_Discount"))
+    {
+        <td class="text-center">
+            @Html.DropDownListFor(model => model.ProductId, new SelectList(Model.productList, "ProductId", "Name"), "select", new { @onchange = "getdropdownid(this)" })
+        </td>
+      
+        <td class="unitpricetd text-center">
+            @Html.EditorFor(model => model.unitprice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true } })
+        </td>
+       
+        <td>
+            @Html.DropDownListFor(model => model.DiscountType, new SelectList(Model.Add_Discount_type, "id", "name"), "select")
+        </td>
+
+        <td class="text-center">
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DiscountValue, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DiscountValue, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </td>
+        <td class="text-center">
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EffectiveFromDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EffectiveFromDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </td>
+        <td class="text-center">
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EffectiveToDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EffectiveToDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </td>
+
+    }
+</tr>

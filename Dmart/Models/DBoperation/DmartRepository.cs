@@ -153,8 +153,6 @@ namespace Dmart.Models.DBoperation
             var orderDate = model.OrderDate;
             var customerid = cust;
             var output = JsonConvert.SerializeObject(model.InsertOrderList.Select(x => new { x.ProductId, x.Quantity, x.unitPrice }));
-
-        
             connection();
             con.Open();
             using (var command = new SqlCommand("AddDataJson", con))
@@ -302,6 +300,24 @@ namespace Dmart.Models.DBoperation
             }
             return ProductList;
         }
+
+        public void AddDiscount(DiscountModel model)
+        {
+            //var orderid = id;
+            var JsonData = JsonConvert.SerializeObject(model.Add_Discount.Select(x => new { x.ProductId, x.unitprice,x.DiscountValue, x.DiscountType, x.EffectiveFromDate, x.EffectiveToDate}));
+            connection();
+            con.Open();
+            using (var command = new SqlCommand("AddDiscount", con))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@JsonData", JsonData);
+                command.ExecuteNonQuery();
+                con.Close();
+            }
+
+            //var output = JsonConvert.SerializeObject(model.OrderList.Select(x => new { x.product.ProductId, x.product.Quantity, x.product.unitPrice }));
+        }
+
 
     }
 }

@@ -1,0 +1,69 @@
+﻿@model Dmart.Models.DiscountModel
+
+@{
+    ViewBag.Title = "Discount_Master";
+}
+
+<h2>Discount_Master</h2>
+
+<p>
+    @Html.ActionLink("Add Product Discount", "Create")
+</p>
+
+
+<table class="table table-dark table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiscountValue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiscountType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EffectiveFromDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EffectiveToDate)
+        </th>  
+    </tr>
+
+@*@foreach (var item in Model.discount_master) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiscountValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiscountType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EffectiveFromDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EffectiveToDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total_Discount)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}*@
+
+</table>
+
+

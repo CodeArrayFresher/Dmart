@@ -162,5 +162,32 @@ namespace Dmart.Controllers
             return PartialView("_ProductHistory", model);
         }
 
+        public ActionResult Discount_Master()
+        {
+            var model = new DiscountModel();
+            return View(model);
+        }
+
+        public ActionResult Add_Discount()
+        {
+            return View();
+        }
+
+        public ActionResult _discount()
+        {
+            var model = new DiscountModel();
+         
+            model.productList = repo.GetAllProducts(DateTime.Now);
+            return PartialView("_discount",model);
+        }
+
+        [HttpPost]
+        public ActionResult InsertDiscount(DiscountModel model)
+        {
+          
+            repo.AddDiscount(model);
+            return RedirectToAction("Discount_Master");
+        }
+
     }
 }

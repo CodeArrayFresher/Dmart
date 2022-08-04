@@ -52,13 +52,13 @@
     console.log(events);
 
 
-        var srno = 1;
+        //var srno = 1;
     $(".ADD").click(function () {
-        var cname = $('#customer').val();
-        var pname = $('#products').val();
-        var quantity = $('#quantity').val();
-        var order_date = $('#odate').val();
-        var amount = $('#amount').text();
+        //var cname = $('#customer').val();
+        //var pname = $('#products').val();
+        //var quantity = $('#quantity').val();
+        //var order_date = $('#odate').val();
+        //var amount = $('#amount').text();
         @*$("#tbl").append(
             *@
 
@@ -74,7 +74,7 @@
             },
         }
         )
-        ++srno;
+    /*    ++srno;*/
         //console.log(cname, pname, quantity, unit_price, amount);
     });
     //$('#quantity').on('change', function () {
@@ -127,10 +127,9 @@
             data: { 'id': a },
             success: function (x) {
                 if (x != 0) {
-                    //$("#unit" + srno).val('x');
-                    //console.log(x);
+                    
                     Price = x;
-                    //console.log($(b).parent().siblings().find('.unitprice').text(Price));
+                    
                     $(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange').val(Price);
                 }
                 else {

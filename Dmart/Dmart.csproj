@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\DBoperation\DmartRepository.cs" />
+    <Compile Include="Models\DiscountModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -181,6 +182,9 @@
     <Content Include="Views\Home\ChangeProductPrice.cshtml" />
     <Content Include="Views\Home\_UpdateProductPrice.cshtml" />
     <Content Include="Views\Home\_ProductHistory.cshtml" />
+    <Content Include="Views\Home\Discount_Master.cshtml" />
+    <Content Include="Views\Home\Add_Discount.cshtml" />
+    <Content Include="Views\Home\_discount.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
