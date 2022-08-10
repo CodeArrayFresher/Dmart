@@ -50,33 +50,20 @@
 <script>
     var events = @Html.Raw(Json.Encode(Model.ProductList));
     console.log(events);
-
-
+    $.ajax({
+        type: "get",
+        url: "/Home/_TableRow",
+        /*            data: { 'id': a },*/
+        success: function (x) {
+            $("#tbl").append(x);
+        },
+        error: function () {
+            alert("Dynamic content load failed");
+        },
+    }
+    )
         //var srno = 1;
-    $(".ADD").click(function () {
-        //var cname = $('#customer').val();
-        //var pname = $('#products').val();
-        //var quantity = $('#quantity').val();
-        //var order_date = $('#odate').val();
-        //var amount = $('#amount').text();
-        @*$("#tbl").append(
-            *@
-
-        $.ajax({
-            type: "get",
-            url: "/Home/_TableRow",
-/*            data: { 'id': a },*/
-            success: function (x) {
-                $("#tbl").append(x);
-            },
-            error: function () {
-                alert("Dynamic content load failed");
-            },
-        }
-        )
-    /*    ++srno;*/
-        //console.log(cname, pname, quantity, unit_price, amount);
-    });
+  
     //$('#quantity').on('change', function () {
     //    var unit_price = $('#unitprice').text();
     //    var quantity = $('#quantity').val();
@@ -85,15 +72,18 @@
     //});
 
     function calamnt(id) {
+        debugger;
         var a = $(id);
+        //$(id).val(1);
         var quantity = $(id).val();
         console.log(id);
-        var unitprice = $(a).parent().parent().find(".unitpricechange").val();
+        var unitprice = $(a).parent().parent().find(".unitpricechange")[0].textContent;
         //console.log(unitprice);
-
+        console.log(unitprice);
 
         var d = $(id).parent().parent().find(".amount").val(quantity * unitprice);
         console.log(d);
+        //getdropdownid(id);
     }
     //function del(id) {
     //    console.log("#row" + id);
@@ -115,54 +105,67 @@
   
     var a;
    function getdropdownid(id)
-       {
+   {
+       debugger;
+
+ 
         a = $(id).val();
        var b = $(id);
        //var strike = b[0];
        //console.log(b);
        //console.log(a);
        var c = b[0];
-       getdiscount(a,b,c);
-        $.ajax({
+       var qty = $(b).parent().parent().find('.qty').val(1);
+       var qtys = $(b).parent().parent().find('.qty').val();
+       var foc = $(b).parent().parent().find('.qty');
+
+       $(foc).on('blur', function () {
+           $.ajax({
+               type: "get",
+               url: "/Home/_TableRow",
+               /*            data: { 'id': a },*/
+               success: function (x) {
+                   $("#tbl").append(x);
+               },
+               error: function () {
+                   alert("Dynamic content load failed");
+               },
+           }
+           )
+       });
+       //getdiscount(a,b,c);
+       $.ajax({
+            
             type: "get",
-            url: "/Home/getUnitPrice",
+            url: "/Home/GetUnitPrice",
             data: { 'id': a },
             success: function (x) {
                 if (x != 0) {
-                    Price = x;
-                    $(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange').val(Price); 
-                     
-                }
-                else {
-                    console.log("error");
-                }
-            },
-            error: function () {
-                alert("Dynamic content load failed");
-            },
-        }
-        )
-
-
-    }
-
-    function getdiscount(id, elm, strike) {
-        $.ajax({
-            type: "get",
-            url: "/Home/GetDiscountPrice",
-            data: { 'id': id },
-            success: function (x) {
-                if (x != 0) {
-                    //$("#unit" + srno).val('x');
+               
                     //console.log(x);
-                    //Price = x;
-                    //console.log($(b).parent().siblings().find('.unitprice').text(Price));
-                    //console.log(strike);
-                    var elms = elm[0];
-                    console.log($(strike).parent().siblings().closest('.unitpricetd').find('unitpricechange')[1]);
-                    //$(b[0]).parent().siblings().closest('.unitpricetd').find('.unitpricechange').css('text-decoration', 'line-through'); 
-                    $(elms).parent().siblings().closest('.unitpricetd').find('.discount')[0].innerHTML = 'Discount Price ' + x;
+                    //$(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange')[0].innerHTML = x.amount;
+                    $(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange').val(x.amount);
+                    //console.log($(b).parent().parent().find('.qty')[0]);
+                    $(b).parent().parent().find('.amount').val(x.amount * qtys);
+                    if (x.product_discount_value != 0) {
+                        if (x.discounttype == true) {
+                            $(b).parent().siblings().closest('.unitpricetd').find('span').show();
+                            $(b).parent().siblings().closest('.unitpricetd').find('span')[0].innerHTML = 'Original Price: &#8377;<s>' + x.productprice + ' </s><span style= "color:red; font-weight:bold; background-color:white">(' + x.product_discount_value + '% off )</span>';
+
+                            //$(b).parent().siblings().closest('.unitpricetd').find('span').find('productprice')[0].css("text-decoration", "line-through");
+                        }
+                        else {
+                            $(b).parent().siblings().closest('.unitpricetd').find('span')[0].innerHTML = 'Original Price: &#8377;<s>' + x.productprice + '</s><span style= "color:red; font-weight:bold; background-color:white"> (' + x.product_discount_value + '&#8377; off )</span>';
+
+                        }
+                    }
+                    else{
+                        $(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange')[0].innerHTML = x.amount;
+                        $(b).parent().siblings().closest('.unitpricetd').find('span').hide();
+                    }
+
                 }
+              
                 else {
                     console.log("error");
                 }
@@ -171,13 +174,11 @@
                 alert("Dynamic content load failed");
             },
         }
-        )
+       )
+    
+       //calamnt(qty);
+
+
     }
 
-    //setInterval(function () {
-    //    console.log(Price);
-    //}, 1000);
-
-    //var a = $("#row1").siblings();
-    //console.log(a);
 </script>

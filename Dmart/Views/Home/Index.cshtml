@@ -16,12 +16,13 @@
 </style>
 <body>
     <button type="button" class="btn btn-dark">@Html.ActionLink("Change Product Price", "ChangeProductPrice")</button>
+    <button type="button" class="btn btn-dark">@Html.ActionLink("Add Product Discount", "Discount_Master    ")</button>
     <h2>Order List</h2>
-    <h4>@Html.ActionLink("Insert Data", "Insert")</h4>
-
+    @*<h4>@Html.ActionLink("Insert Data", "Insert")</h4>*@
+    <button type="button" class="btn btn-dark">@Html.ActionLink("Add Order", "Insert")</button>
     <button id="expandall" type="button" class="btn btn-dark"> Expand All </button>
 
-    
+
     <br /> <br />
     <table class="table table-bordered table-hover text-center" id="Tab" style="border: 1px solid #A0A0A0">
         <tr class="text-center">
@@ -97,7 +98,7 @@
         $("body").on("click", "img[src*='minus.png']", function () {
             $(this).attr("src", "/Content/plus.png");
             $('.productTable').find('.innerTr').nextAll().empty();
-          $('.productTable').hide();
+            $('.productTable').hide();
         });
 
         $("body").on("click", "img[src*='plus.png']", function () {
@@ -106,14 +107,14 @@
                 var arr = [];
 
                 var a = $(this).parent().parent().find('.OrderID')[0].innerHTML;
-                    var b = parseInt(a);
-                    arr.push(b);
+                var b = parseInt(a);
+                arr.push(b);
 
-            
+
                 var narr = new Array();
                 narr = arr;
                 narr = narr.join(",");
-                
+
                 $(this).parent().parent().next('.productTable').show();
                 $(this).attr("src", "/Content/minus.png");
                 $.ajax({
@@ -145,7 +146,7 @@
             }
         });
 
-      
+
 
 
         $(document).on('click', '#expandall', function () {
@@ -166,12 +167,12 @@
             var narr = new Array();
             narr = arr;
             narr = narr.join(",");
-            
-                $('.productTable').show();
+
+            $('.productTable').show();
             $.ajax({
                 type: "get",
                 url: '/Home/_IndexProductList',
-                data: {'id': narr},
+                data: { 'id': narr },
                 contentType: 'application/json; charset=utf-8',
                 datatype: 'json',
                 success: function (x) {
@@ -184,27 +185,27 @@
                         trs = $(x).find("." + a);
                         console.log(trs);
                         $('#Tab').find('.' + a).next().find('.innerTr').after(trs);
-                       
+
 
                         //$('#Tab').find('#' + a).next().find('.innerTr').after(x);
 
                     }
 
-                    
+
                     //$(".innerTr").each(function (i, e) {
                     //    console.log(arr);
-                       
+
                     //    //console.log($(e)[0]);
                     //    $(e).after(x);
                     //});
-                    
+
                 },
                 error: function () {
                     alert("dynamic content not found");
                 },
             })
 
-          
+
         });
 
         $(document).on('click', '#collapseall', function () {
@@ -214,7 +215,7 @@
                 $('.productTable').find('.innerTr').nextAll().empty();
                 $('.productTable').hide();
             });
-            
+
         })
 
 

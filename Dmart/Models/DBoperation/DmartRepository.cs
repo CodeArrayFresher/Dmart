@@ -126,26 +126,34 @@ namespace Dmart.Models.DBoperation
             }
             return ProductList;
         }
-        public int GetProductPrice(int id,DateTime date)
+        public DiscountModel GetProductPrice(int id, DateTime date)
         {
             connection();
-            int price= 0;
+
+            var res = new DiscountModel();
             SqlCommand cmd = new SqlCommand("ProductPrice", con);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@id", id);
             cmd.Parameters.AddWithValue("@dates", date);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
+
+            cmd.Parameters.Add("@unitpricee", SqlDbType.Int);
+            cmd.Parameters.Add("@discounttypeout", SqlDbType.Int);
+            cmd.Parameters.Add("@discountvalueout", SqlDbType.Int);
+            cmd.Parameters["@unitpricee"].Direction = ParameterDirection.Output;
+            cmd.Parameters["@discounttypeout"].Direction = ParameterDirection.Output;
+            cmd.Parameters["@discountvalueout"].Direction = ParameterDirection.Output;
             con.Open();
-            da.Fill(dt);
+            cmd.ExecuteNonQuery();
+            res.DiscountType = (cmd.Parameters["@discounttypeout"].Value) is DBNull  ? false : Convert.ToBoolean(cmd.Parameters["@discounttypeout"].Value);
+            res.getdiscountvalue = (cmd.Parameters["@discountvalueout"].Value) is DBNull ? 0 : Convert.ToInt32(cmd.Parameters["@discountvalueout"].Value);
+            res.unitprice = Convert.ToInt32(cmd.Parameters["@unitpricee"].Value);
             con.Close();
-            if(dt.Rows.Count > 0)
-            {
-                DataRow row = dt.Rows[0];
-                price = Convert.ToInt32(row["Price"]);
-            }
-            return price;
+
+            return res;
         }
+
+       
+
 
         public void AddData(ProductModel model, int cust)
         {
@@ -304,7 +312,7 @@ namespace Dmart.Models.DBoperation
         public void AddDiscount(DiscountModel model)
         {
             //var orderid = id;
-            var JsonData = JsonConvert.SerializeObject(model.Add_Discount.Select(x => new { x.ProductId, x.unitprice,x.DiscountValue, x.DiscountType, x.EffectiveFromDate, x.EffectiveToDate}));
+            var JsonData = JsonConvert.SerializeObject(model.Add_Discount.Select(x => new { x.ProductId,x.DiscountValue, x.DiscountType, x.EffectiveFromDate, x.EffectiveToDate}));
             connection();
             con.Open();
             using (var command = new SqlCommand("AddDiscount", con))
@@ -318,25 +326,31 @@ namespace Dmart.Models.DBoperation
             //var output = JsonConvert.SerializeObject(model.OrderList.Select(x => new { x.product.ProductId, x.product.Quantity, x.product.unitPrice }));
         }
 
-        public decimal GetDiscountPrice(int id, DateTime date)
+        public List<DiscountModel> DiscountHome()
         {
             connection();
-            decimal price = 0;
+            List<DiscountModel> DiscountList = new List<DiscountModel>();
             SqlCommand cmd = new SqlCommand("GetDiscountPrice", con);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@id", id);
-            cmd.Parameters.AddWithValue("@currdate", date);
+
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             con.Open();
             da.Fill(dt);
             con.Close();
-            if (dt.Rows.Count > 0)
+            foreach (DataRow dr in dt.Rows)
             {
-                DataRow row = dt.Rows[0];
-                price = Convert.ToDecimal(row["amount"]);
+                DiscountList.Add(new DiscountModel()
+                {
+                    ProductName = Convert.ToString(dr["Name"]),
+                    DiscountValue = Convert.ToDecimal(dr["Discount_value"]),
+                    DiscountType = Convert.ToBoolean(dr["Discount_type"]),
+                    EffectiveFromDate = Convert.ToDateTime(dr["EffectiveFromDate"]),
+                    EffectiveToDate = Convert.ToDateTime(dr["EffectiveToDate"])
+
+                });
             }
-            return price;
+            return DiscountList;
         }
 
 

@@ -12,13 +12,14 @@ namespace Dmart.Models
         public decimal getdiscountvalue { get; set; }
         public int unitprice { get; set; }
         public string ProductName { get; set; }
-        public int DiscountValue { get; set; }
-        public int DiscountType { get; set; }
+        public decimal DiscountValue { get; set; }
+        public bool DiscountType { get; set; }
         [DataType(DataType.Date)]
         public DateTime EffectiveFromDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime EffectiveToDate { get; set; }
         public int Total_Discount { get; set; }
+
         public List<DiscountModel> discount_master { get; set; }
         public List<DiscountType> Add_Discount_type = new List<DiscountType>()
         {

@@ -3,16 +3,23 @@
     @using (Html.BeginCollectionItem("UpdatedOrderList"))
     {
         <td>
-            @Html.DropDownListFor(model => model.ProductId, new SelectList(Model.ProductList, "ProductId", "Name"),"select" , new { @onchange = "getdropdownid(this)" })
+            @Html.DropDownListFor(model => model.ProductId, new SelectList(Model.ProductList, "ProductId", "Name"), "select", new { @onchange = "getdropdownid(this)" })
         </td>
         <td class="unitpricetd">
-            @Html.EditorFor(model => model.unitPrice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true } })
+            @*@Html.EditorFor(model => model.unitPrice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true } })*@
+            <label class="text-center unitpricechange"></label>
+            @Html.LabelFor(model => model.unitPrice)
+        
+            <br />  <span class="discount">  </span>
         </td>
+        @*<td class="unitpricetd">
+                @Html.EditorFor(model => model.unitPrice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true } })
+            </td>*@
         <td>
             @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "text-center", @onchange = "calamnt(this)", @required = true } })
         </td>
         <td>
-            @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "text-center amount", @required = true } })
+            @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "text-center amount",  @required = true } })
         </td>
         <td>
             <button type="button" class="btn btn-danger delete">Delete</button>

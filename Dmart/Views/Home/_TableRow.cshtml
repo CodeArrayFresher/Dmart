@@ -6,17 +6,21 @@
             @Html.DropDownListFor(model => model.ProductId, new SelectList(Model.ProductList, "ProductId", "Name"), "select", new { @onchange = "getdropdownid(this)" })
         </td>
         <td class="unitpricetd">
-            @Html.EditorFor(model => model.unitPrice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true } })
-            <br />  <span class="discount"></span>
+            <label class="text-center unitpricechange"></label>
+            @*@Html.LabelFor(x => x.unitPrice, htmlAttributes: new { @class = "unitpricechange" })*@
+            @Html.HiddenFor(model => model.unitPrice, htmlAttributes: new { @class = "unitpricechange" })
+            @*@Html.EditorFor(model => model.unitPrice, new { htmlAttributes = new { @class = "unitpricechange" } })*@
+            @*<label class="text-center unitpricechange">@Html.DisplayFor(Model => Model.unitPrice)</label>*@
+            <br />  <span class="discount">  </span>
         </td>
         <td>
-            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "text-center", @onchange = "calamnt(this)", @required = true } })
+            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "qty text-center", @onchange = "calamnt(this)",  @required = true} })
         </td>
         <td>
             @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "text-center amount", @required = true } })
         </td>
         <td>
-            <button type="button" class="btn btn-danger delete">Delete</button>
+            <button type="button" class="btn btn-danger delete text-center">Delete</button>
         </td>
     }
 </tr>   

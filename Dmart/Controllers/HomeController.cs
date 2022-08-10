@@ -57,6 +57,7 @@ namespace Dmart.Controllers
             DateTime date = DateTime.Now;
             var model = new ProductModel();
             model.ProductList = repo.GetAllProducts(date);
+            //model.Quantity = 1;
             return PartialView("_TableRow", model);
         }
 
@@ -69,11 +70,23 @@ namespace Dmart.Controllers
         }
 
         [HttpGet]
-        public int GetUnitPrice(int id)
+        public JsonResult GetUnitPrice(int id)
         {
             DateTime curr_date = DateTime.Now;
-            int price = repo.GetProductPrice(id, curr_date);
-            return price;
+            var price = repo.GetProductPrice(id, curr_date);
+            int unitprice = price.unitprice;
+            decimal discount_value = price.getdiscountvalue;
+            bool discount_type = price.DiscountType;
+            decimal amount= 0;
+            if (discount_type)
+            {
+                amount = unitprice - (discount_value / 100) * unitprice;
+            }
+            else
+            {
+                amount = unitprice - discount_value;
+            }
+            return Json(new { productprice = unitprice, product_discount_value = discount_value, discounttype = discount_type, amount = amount }, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -165,6 +178,7 @@ namespace Dmart.Controllers
         public ActionResult Discount_Master()
         {
             var model = new DiscountModel();
+            model.discount_master = repo.DiscountHome();
             return View(model);
         }
 
@@ -189,12 +203,12 @@ namespace Dmart.Controllers
             return RedirectToAction("Discount_Master");
         }
 
-        public decimal GetDiscountPrice(int id)
-        {
-            DateTime curr_date = DateTime.Now;
-            decimal price = repo.GetDiscountPrice(id, curr_date);
-            return price;
-        }
+        //public decimal GetDiscountPrice(int id)
+        //{
+        //    DateTime curr_date = DateTime.Now;
+        //    decimal price = repo.GetDiscountPrice(id, curr_date);
+        //    return price;
+        //}
 
     }
 }

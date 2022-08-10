@@ -7,7 +7,8 @@
         </td>
       
         <td class="unitpricetd text-center">
-            @Html.EditorFor(model => model.unitprice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true } })
+            <label class="text-center unitpricechange"></label>
+            @*@Html.EditorFor(model => model.unitprice, new { htmlAttributes = new { @class = "text-center unitpricechange", @required = true } })*@
             <br />  <span class="discount"></span>
         </td>
        

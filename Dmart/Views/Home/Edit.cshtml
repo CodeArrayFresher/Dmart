@@ -58,38 +58,66 @@
         var d = $(id).parent().parent().find(".amount").val(quantity * unitprice);
         console.log(d);
     }
-
-
     function getdropdownid(id) {
-        debugger;
-        var a = $(id).val();
+        a = $(id).val();
         var b = $(id);
-        var c = parseInt(a)
-        console.log(typeof(c));
-        //console.log(b);
-        console.log(a);
+    //$(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange')[0].innerHTML = x.amount;
+  
+        var c = b[0];
+        
         $.ajax({
+
             type: "get",
             url: "/Home/GetUnitPrice",
-            data: { 'id': c },
+            data: { 'id': a },
             success: function (x) {
                 if (x != 0) {
-                    //$("#unit" + srno).val('x');
-                    //console.log(x);
-                   var Price = x;
-                    //console.log($(b).parent().siblings().find('.unitprice').text(Price));
-                    $(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange').val(Price);
+                    debugger;
+                    console.log(x);
+                    $(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange')[0].innerHTML = x.productprice;
                 }
                 else {
                     console.log("error");
                 }
             },
-            error: function (e) {
-                alert(e);
+            error: function () {
+                alert("Dynamic content load failed");
             },
         }
         )
 
 
     }
+    //function getdropdownid(id) {
+    //    debugger;
+    //    var a = $(id).val();
+    //    var b = $(id);
+    //    var c = parseInt(a)
+    //    console.log(typeof(c));
+    //    //console.log(b);
+    //    console.log(a);
+    //    $.ajax({
+    //        type: "get",
+    //        url: "/Home/GetUnitPrice",
+    //        data: { 'id': c },
+    //        success: function (x) {
+    //            if (x != 0) {
+    //                //$("#unit" + srno).val('x');
+    //                //console.log(x);
+    //               var Price = x;
+    //                //console.log($(b).parent().siblings().find('.unitprice').text(Price));
+    //                $(b).parent().siblings().closest('.unitpricetd').find('.unitpricechange').val(Price);
+    //            }
+    //            else {
+    //                console.log("error");
+    //            }
+    //        },
+    //        error: function (e) {
+    //            alert(e);
+    //        },
+    //    }
+    //    )
+
+
+    //}
 </script>
